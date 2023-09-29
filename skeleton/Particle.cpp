@@ -1,8 +1,9 @@
 #include "Particle.h"
 
-Particle::Particle(Vector3 Pos, Vector3 Vel, Vector3 Acl, Vector4 Color) {
+Particle::Particle(Vector3 Pos, Vector3 Vel, Vector3 Acl, float Mass, float Damp, Vector4 Color) {
 	velocity = Vel;
 	aceleration = Acl;
+	damping = Damp;
 	pose = physx::PxTransform(Pos.x, Pos.y, Pos.z);
 	renderItem = new RenderItem(CreateShape(physx::PxSphereGeometry(10)), &pose, Color);
 	RegisterRenderItem(renderItem);

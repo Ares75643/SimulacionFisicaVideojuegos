@@ -10,12 +10,12 @@
 
 #include <iostream>
 
-#include "Particle.h"
+#include "SceneManager.h"
 
 std::string display_text = "This is a test";
 
-
 using namespace physx;
+using namespace std;
 
 PxDefaultAllocator		gAllocator;
 PxDefaultErrorCallback	gErrorCallback;
@@ -32,7 +32,7 @@ PxDefaultCpuDispatcher*	gDispatcher = NULL;
 PxScene*				gScene      = NULL;
 ContactReportCallback gContactReportCallback;
 
-Particle* p;
+SceneManager* sceneManager;
 
 // Initialize physics engine
 void initPhysics(bool interactive)
@@ -57,10 +57,14 @@ void initPhysics(bool interactive)
 	sceneDesc.filterShader = contactReportFilterShader;
 	sceneDesc.simulationEventCallback = &gContactReportCallback;
 	gScene = gPhysics->createScene(sceneDesc);
-
-	p = new Particle(Vector3(0, 0, 0), Vector3(0, 1, 0), Vector3(0, 1, 0));
+	
+	sceneManager = new SceneManager();
 }
 
+
+//vel = cam.getDir()
+//vel *= 25
+//pos = cam.geteye
 
 // Function to configure what happens in each step of physics
 // interactive: true if the game is rendering, false if it offline
@@ -71,7 +75,8 @@ void stepPhysics(bool interactive, double t)
 
 	gScene->simulate(t);
 	gScene->fetchResults(true);
-	p->integrate(t);
+
+	sceneManager->update(t);
 }
 
 // Function to clean data
@@ -101,6 +106,8 @@ void keyPress(unsigned char key, const PxTransform& camera)
 	{
 	//case 'B': break;
 	//case ' ':	break;
+	case 'P':
+		sceneManager->createProyectile(bullet);
 	case ' ':
 	{
 		break;

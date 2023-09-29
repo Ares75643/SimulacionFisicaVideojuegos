@@ -4,16 +4,26 @@
 
 class Particle {
 public:
-	Particle(Vector3 Pos, Vector3 Vel = Vector3(0, 0, 0), Vector3 Acl = Vector3(0, 0, 0), 
+	Particle(Vector3 Pos, Vector3 Vel = Vector3(0, 0, 0), Vector3 Acl = Vector3(0, 0, 0), float Mass = 1, float Damp = 0.998f,
 			 Vector4 Color = Vector4(0, 0, 255, 255));
 	~Particle();
 
 	void integrate(double t);
 
+	void setMass(float M) { mass = M; }
+	void setDamping(float D) { damping = D; }
+	void setPosition(Vector3 P) { pose = physx::PxTransform(P.x, P.y, P.z); }
+	void setVelocity(Vector3 V) { velocity = V; }
+	void setAcceleration(Vector3 A) { aceleration = A; }
+
 private:
 	Vector3 aceleration;
 	Vector3 velocity;
-	float damping = 0.998f;
+	float damping;
+	float mass;
+
+	float lifeTime;
+	bool alive;
 
 	physx::PxTransform pose;
 	RenderItem* renderItem;
