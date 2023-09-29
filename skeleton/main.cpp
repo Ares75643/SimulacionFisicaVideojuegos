@@ -35,8 +35,7 @@ ContactReportCallback gContactReportCallback;
 SceneManager* sceneManager;
 
 // Initialize physics engine
-void initPhysics(bool interactive)
-{
+void initPhysics(bool interactive) {
 	PX_UNUSED(interactive);
 
 	gFoundation = PxCreateFoundation(PX_FOUNDATION_VERSION, gAllocator, gErrorCallback);
@@ -61,16 +60,10 @@ void initPhysics(bool interactive)
 	sceneManager = new SceneManager();
 }
 
-
-//vel = cam.getDir()
-//vel *= 25
-//pos = cam.geteye
-
 // Function to configure what happens in each step of physics
 // interactive: true if the game is rendering, false if it offline
 // t: time passed since last call in milliseconds
-void stepPhysics(bool interactive, double t)
-{
+void stepPhysics(bool interactive, double t) {
 	PX_UNUSED(interactive);
 
 	gScene->simulate(t);
@@ -81,8 +74,7 @@ void stepPhysics(bool interactive, double t)
 
 // Function to clean data
 // Add custom code to the begining of the function
-void cleanupPhysics(bool interactive)
-{
+void cleanupPhysics(bool interactive) {
 	PX_UNUSED(interactive);
 
 	// Rigid Body ++++++++++++++++++++++++++++++++++++++++++
@@ -98,34 +90,30 @@ void cleanupPhysics(bool interactive)
 }
 
 // Function called when a key is pressed
-void keyPress(unsigned char key, const PxTransform& camera)
-{
+void keyPress(unsigned char key, const PxTransform& camera) {
 	PX_UNUSED(camera);
 
-	switch(toupper(key))
-	{
-	//case 'B': break;
-	//case ' ':	break;
-	case 'P':
-		sceneManager->createProyectile(bullet);
-	case ' ':
-	{
-		break;
-	}
-	default:
-		break;
+	switch(toupper(key)) {
+		//case 'B': break;
+		//case ' ':	break;
+		case 'P':
+			sceneManager->createProyectile(bullet);
+
+		case ' ':
+			break;
+
+		default:
+			break;
 	}
 }
 
-void onCollision(physx::PxActor* actor1, physx::PxActor* actor2)
-{
+void onCollision(physx::PxActor* actor1, physx::PxActor* actor2) {
 	PX_UNUSED(actor1);
 	PX_UNUSED(actor2);
 }
 
 
-int main(int, const char*const*)
-{
+int main(int, const char*const*) {
 #ifndef OFFLINE_EXECUTION 
 	extern void renderLoop();
 	renderLoop();
