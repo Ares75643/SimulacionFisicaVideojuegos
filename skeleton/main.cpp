@@ -98,7 +98,13 @@ void keyPress(unsigned char key, const PxTransform& camera) {
 		//case ' ':	break;
 		case 'P':
 			sceneManager->createProyectile(bullet);
-
+			break;
+		case 'C':
+			sceneManager->createProyectile(canonBall);
+			break;
+		case 'L':
+			sceneManager->createProyectile(laser);
+			break;
 		case ' ':
 			break;
 
