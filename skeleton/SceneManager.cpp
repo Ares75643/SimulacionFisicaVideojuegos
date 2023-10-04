@@ -10,9 +10,10 @@ SceneManager::~SceneManager() {
 
 void SceneManager::update(double t) {
 	for (list<Particle*>::iterator it = proyectiles.begin(); it != proyectiles.end(); ++it) {
-		(*it)->integrate(t);
-		
-		if (!(*it)->isAlive()) particlesToDelete.push_back((*it));
+		if ((*it)->isAlive()) 
+			(*it)->integrate(t);
+		else 
+			particlesToDelete.push_back((*it));
 	}
 	deleteUnusedParticles();
 }
