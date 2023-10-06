@@ -2,6 +2,7 @@
 #include <vector>
 #include <list>
 #include "Particle.h"
+#include "ParticleSystem.h"
 #include "core.hpp"
 
 using namespace std;
@@ -12,8 +13,12 @@ class SceneManager{
 private:
 	Camera* camera;
 	list<Particle*> proyectiles;
-
 	list<Particle*> particlesToDelete;
+
+	ParticleSystem* particleSys;
+
+	int nParticles = 0;
+	const int MAXPARTICLES = 200;
 
 	void deleteUnusedParticles();
 
