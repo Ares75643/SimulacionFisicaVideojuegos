@@ -12,15 +12,23 @@ public:
 	void init();
 	void integrate(double t);
 
-	void setMass(float M) { mass = M; }
-	void setDamping(float D) { damping = D; }
 	void setPosition(Vector3 P) { pose = physx::PxTransform(P.x, P.y, P.z); }
 	void setVelocity(Vector3 V) { velocity = V; }
 	void setSpeed(float S) { velocity = velocity.getNormalized() * S; }
 	void setAcceleration(Vector3 A) { aceleration = A; }
+	void setMass(float M) { mass = M; }
+	void setDamping(float D) { damping = D; }
 	void setLifeTime(float T) { lifeTime = T; }
-	void setColor(Vector4 C) { color = C; }
 	void setSize(float S) { size = S; }
+	void setColor(Vector4 C) { color = C; }
+
+	Vector3 getVelocity() { return velocity; }
+	Vector3 getAcceleration() { return aceleration; }
+	float getMass() { return mass; }
+	float getDamping(){ return damping; }
+	float getLifeTime(){ return lifeTime; }
+	float getSize() { return size; }
+	Vector4 getColor() { return color; }
 
 	bool isAlive() { return alive; }
 

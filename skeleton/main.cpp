@@ -94,16 +94,17 @@ void keyPress(unsigned char key, const PxTransform& camera) {
 	PX_UNUSED(camera);
 
 	switch(toupper(key)) {
-		//case 'B': break;
-		//case ' ':	break;
+		case 'G':
+			sceneManager->getParticleSys()->addParticleGenerator(GAUSSIAN);
+			break;
 		case 'P':
-			sceneManager->createProyectile(bullet);
+			sceneManager->getParticleSys()->createProyectile(bullet);
 			break;
 		case 'C':
-			sceneManager->createProyectile(canonBall);
+			sceneManager->getParticleSys()->createProyectile(canonBall);
 			break;
 		case 'L':
-			sceneManager->createProyectile(laser);
+			sceneManager->getParticleSys()->createProyectile(laser);
 			break;
 		case ' ':
 			break;

@@ -7,18 +7,24 @@
 using namespace std;
 
 class ParticleGenerator {
-private:
+protected:
 	string name;
-	Vector3 pos, vel;
+	Vector3 position, velocity;
 	double generationProbability;
 	int nParticles;
-	int maxParticles = 200;
+	int maxParticles;
+	int particlesGenerated;
+	float frecuency;
+	float timeUntilNextGeneration;
 	Particle* model;
+	bool active;
 
 public:
-	ParticleGenerator();
-	ParticleGenerator(string Name, Vector3 Pos, Vector3 Vel, double GenerationProbability, Particle* model);
+	ParticleGenerator(){}
+	ParticleGenerator(string Name, Vector3 Position, Vector3 Velocity, Particle* Model, int ParticlesGenerated, int MaxParticles, float GenerationProbability, float Frecuency);
 	~ParticleGenerator();
+
 	void setParticle(Particle* model);
 	virtual list<Particle*> generateParticles() = 0;
+	void updateTime(float t) { timeUntilNextGeneration -= t; }
 };
