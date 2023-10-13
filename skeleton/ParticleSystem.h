@@ -32,4 +32,14 @@ public:
 	void update(double t);
 	void addParticleGenerator(type T);
 	void createProyectile(ProyectilType type);
+
+	void PRUEBADISTRI() {
+		for (ParticleGenerator* p : particleGenerators) {
+			GaussianParticleGenerator* g = static_cast<GaussianParticleGenerator*>(p);
+			if (g != nullptr) {
+				float V = g->getVar() + 0.1;
+				g->changeDistribution(0, V);
+			}
+		}
+	}
 };

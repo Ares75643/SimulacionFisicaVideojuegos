@@ -12,28 +12,31 @@ public:
 	void init();
 	void integrate(double t);
 
-	void setPosition(Vector3 P) { pose = physx::PxTransform(P.x, P.y, P.z); }
-	void setVelocity(Vector3 V) { velocity = V; }
-	void setSpeed(float S) { velocity = velocity.getNormalized() * S; }
-	void setAcceleration(Vector3 A) { aceleration = A; }
-	void setMass(float M) { mass = M; }
-	void setDamping(float D) { damping = D; }
-	void setLifeTime(float T) { lifeTime = T; }
-	void setSize(float S) { size = S; }
-	void setColor(Vector4 C) { color = C; }
+	inline void setPosition(Vector3 P) { pose = physx::PxTransform(P.x, P.y, P.z); }
+	inline void setVelocity(Vector3 V) { velocity = V; }
+	inline void setSpeed(float S) { velocity = velocity.getNormalized() * S; }
+	inline void setAcceleration(Vector3 A) { aceleration = A; }
+	inline void setMass(float M) { mass = M; }
+	inline void setDamping(float D) { damping = D; }
+	inline void setLifeTime(float T) { lifeTime = T; }
+	inline void setSize(float S) { size = S; }
+	inline void setColor(Vector4 C) { color = C; }
 
-	Vector3 getVelocity() { return velocity; }
-	Vector3 getAcceleration() { return aceleration; }
-	float getMass() { return mass; }
-	float getDamping(){ return damping; }
-	float getLifeTime(){ return lifeTime; }
-	float getSize() { return size; }
-	Vector4 getColor() { return color; }
+	inline Vector3 getVelocity() { return velocity; }
+	inline float getSpeed() { return velocity.magnitude(); }
+	inline Vector3 getAcceleration() { return aceleration; }
+	inline float getMass() { return mass; }
+	inline float getDamping(){ return damping; }
+	inline float getLifeTime(){ return lifeTime; }
+	inline float getSize() { return size; }
+	inline Vector4 getColor() { return color; }
 
-	bool isAlive() { return alive; }
+	inline bool isAlive() { return alive; }
+
+	inline Particle* clone() { return new Particle(pose.p, velocity, aceleration, size, mass, lifeTime, damping, color); }
 
 private:
-	Vector3 aceleration; // m/s2
+	Vector3 aceleration; // m/s^2
 	Vector3 velocity; // m/s
 	float size; // m
 	float mass; // Kg

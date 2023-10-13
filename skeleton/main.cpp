@@ -94,6 +94,9 @@ void keyPress(unsigned char key, const PxTransform& camera) {
 	PX_UNUSED(camera);
 
 	switch(toupper(key)) {
+		case 'U':
+			sceneManager->getParticleSys()->addParticleGenerator(UNIFORM);
+			break;
 		case 'G':
 			sceneManager->getParticleSys()->addParticleGenerator(GAUSSIAN);
 			break;

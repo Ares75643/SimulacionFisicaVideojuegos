@@ -12,19 +12,19 @@ ParticleSystem::~ParticleSystem() {
 
 void ParticleSystem::update(double t) {
 	//Generadores de partículas
-	for (list<ParticleGenerator*>::iterator it = particleGenerators.begin(); it != particleGenerators.end(); it++) {
-		for (auto p : (*it)->generateParticles()) {
+	for (ParticleGenerator* g : particleGenerators) {
+		for (auto p : g->generateParticles()) {
 			particles.push_back(p);
 		}
-		(*it)->updateTime(t);
+		g->update(t);
 	}
 
 	//Particulas
-	for (list<Particle*>::iterator it = particles.begin(); it != particles.end(); ++it) {
-		if ((*it)->isAlive())
-			(*it)->integrate(t);
+	for (Particle* p : particles) {
+		if (p->isAlive())
+			p->integrate(t);
 		else
-			particlesToDelete.push_back((*it));
+			particlesToDelete.push_back(p);
 	}
 	deleteUnusedParticles();
 }
@@ -46,14 +46,15 @@ void ParticleSystem::addParticleGenerator(type T) {
 
 	case GAUSSIAN:
 		Particle* p = new Particle(sMngr->getCamera()->getEye(), sMngr->getCamera()->getDir(), Vector3(0, -9.8, 0));
+		p->setMass(2.0f);
+		p->setSpeed(60.0f);
+		p->setDamping(0.99f);
+		p->setLifeTime(10);
+		p->setSize(2);
+		p->setColor(Vector4(0, 30, 190, 255));
 
-					p->setMass(2.0f);
-					p->setSpeed(60.0f);
-					p->setDamping(0.99f);
-					p->setLifeTime(30);
-					p->setSize(2);
-
-		particleGenerators.push_back(new GaussianParticleGenerator("Hola", sMngr->getCamera()->getEye() + Vector3(0, 0, 50), Vector3(0,0,0), p, 5, 1000, 0.99, 0.2));
+		Vector3 perpendicular = Vector3(0, 1, 0).cross(sMngr->getCamera()->getDir());
+		particleGenerators.push_back(new GaussianParticleGenerator("G", sMngr->getCamera()->getEye() + sMngr->getCamera()->getDir()*50, perpendicular * 25, p, 5, 1000, 0.99, 0.2, perpendicular*(-5)));
 		break;
 	}
 }

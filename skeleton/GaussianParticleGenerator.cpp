@@ -1,28 +1,33 @@
 #include "GaussianParticleGenerator.h"
+std::default_random_engine generator;
 
-GaussianParticleGenerator::GaussianParticleGenerator(string Name, Vector3 Position, Vector3 Velocity, Particle* Model, int ParticlesGenerated, int MaxParticles, float GenerationProbability, float Frecuency)
-	: ParticleGenerator(Name, Position, Velocity, Model, ParticlesGenerated, MaxParticles, GenerationProbability, Frecuency) {
+GaussianParticleGenerator::GaussianParticleGenerator(string Name, Vector3 Position, Vector3 PVelocity, Particle* Model, int ParticlesGenerated, int MaxParticles, float GenerationProbability, float Frecuency, Vector3 Velocity)
+	: ParticleGenerator(Name, Position, PVelocity, Model, ParticlesGenerated, MaxParticles, GenerationProbability, Frecuency, Velocity) {
 }
 
 GaussianParticleGenerator::~GaussianParticleGenerator() {
+
 }
 
 list<Particle*> GaussianParticleGenerator::generateParticles() {
 
+	std::normal_distribution<float> distribution(median, var); // Se contruye aqui para poder cambiar los parametros
+
 	list<Particle*> generated;
 
-	if (active && timeUntilNextGeneration <= 0) {
-		for (int i = 0; i < particlesGenerated; i++) {
-			Vector3 pos = Vector3(position.x, position.y, position.z);
-			Vector3 vel = Vector3(0, 0, 0);
-			Vector3 acl = Vector3(0, -9.8, 0);
-
-			Particle* p = new Particle(pos, vel, acl, model->getSize(), model->getMass(), model->getLifeTime(), model->getDamping(), model->getColor());
-			p->init();
-			generated.push_back(p);
+	if (active && timeUntilNextGeneration <= 0) { // Si debe generar (tiempo y activo)
+		for (int i = 0; i < particlesGenerated; i++) { // Numero de generación
+			if (generationProbability * 100 >= (rand() % 100 + 1)) { // Probabilidad de generar
+				Particle* p = model->clone();
+				p->setPosition(position + Vector3(distribution(generator), distribution(generator), distribution(generator)));
+				p->setVelocity(pVelocity + Vector3(distribution(generator), distribution(generator), distribution(generator)));
+				p->setAcceleration(Vector3(0, -9.8, 0));
+				p->setLifeTime(p->getLifeTime() + distribution(generator) * 0.5);
+				p->init();
+				generated.push_back(p);
+			}
 		}
-		timeUntilNextGeneration = frecuency;
+		timeUntilNextGeneration = frecuency; // Actualiza el tiempo hasta la generación
 	}
-
 	return generated;
 }
