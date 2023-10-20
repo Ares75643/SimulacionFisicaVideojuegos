@@ -11,6 +11,7 @@
 #include <iostream>
 
 #include "SceneManager.h"
+#include "Particle.h"
 
 std::string display_text = "This is a test";
 
@@ -63,6 +64,7 @@ void initPhysics(bool interactive) {
 // Function to configure what happens in each step of physics
 // interactive: true if the game is rendering, false if it offline
 // t: time passed since last call in milliseconds
+
 void stepPhysics(bool interactive, double t) {
 	PX_UNUSED(interactive);
 
@@ -110,7 +112,10 @@ void keyPress(unsigned char key, const PxTransform& camera) {
 			sceneManager->getParticleSys()->createProyectile(laser);
 			break;
 		case ' ':
+			sceneManager->getParticleSys()->createProyectile(firework);
 			break;
+		case 'Q':
+			sceneManager->getParticleSys()->deleteUnusedParticles();
 
 		default:
 			break;

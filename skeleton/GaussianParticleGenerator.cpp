@@ -10,9 +10,7 @@ GaussianParticleGenerator::~GaussianParticleGenerator() {
 }
 
 list<Particle*> GaussianParticleGenerator::generateParticles() {
-
 	std::normal_distribution<float> distribution(median, var); // Se contruye aqui para poder cambiar los parametros
-
 	list<Particle*> generated;
 
 	if (active && timeUntilNextGeneration <= 0) { // Si debe generar (tiempo y activo)

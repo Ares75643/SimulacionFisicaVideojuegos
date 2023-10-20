@@ -6,11 +6,11 @@ class Particle {
 public:
 	Particle(Vector3 Pos, Vector3 Vel = Vector3(0, 0, 0), Vector3 Acl = Vector3(0, 0, 0), 
 		float Size = 1, float Mass = 1, float LifeTime = 25, float Damp = 0.998f, 
-		Vector4 Color = Vector4(0, 0, 255, 255));
+		Vector4 Color = Vector4(0, 0, 1, 1));
 	~Particle();
 
 	void init();
-	void integrate(double t);
+	virtual void integrate(double t);
 
 	inline void setPosition(Vector3 P) { pose = physx::PxTransform(P.x, P.y, P.z); }
 	inline void setVelocity(Vector3 V) { velocity = V; }
@@ -22,6 +22,7 @@ public:
 	inline void setSize(float S) { size = S; }
 	inline void setColor(Vector4 C) { color = C; }
 
+	inline Vector3 getPos() { return Vector3(pose.p.x, pose.p.y, pose.p.z); }
 	inline Vector3 getVelocity() { return velocity; }
 	inline float getSpeed() { return velocity.magnitude(); }
 	inline Vector3 getAcceleration() { return aceleration; }
@@ -35,7 +36,7 @@ public:
 
 	inline Particle* clone() { return new Particle(pose.p, velocity, aceleration, size, mass, lifeTime, damping, color); }
 
-private:
+protected:
 	Vector3 aceleration; // m/s^2
 	Vector3 velocity; // m/s
 	float size; // m

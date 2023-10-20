@@ -15,7 +15,6 @@ Particle::Particle(Vector3 Pos, Vector3 Vel, Vector3 Acl, float Size, float Mass
 
 void Particle::init() {
 	renderItem = new RenderItem(CreateShape(physx::PxSphereGeometry(size)), &pose, color);
-	RegisterRenderItem(renderItem);
 }
 
 Particle::~Particle() {

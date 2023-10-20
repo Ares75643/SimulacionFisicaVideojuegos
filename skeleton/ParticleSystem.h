@@ -1,6 +1,7 @@
 #pragma once
 #include <list>
 #include "Particle.h"
+#include "Firework.h"
 #include "UniformParticleGenerator.h"
 #include "GaussianParticleGenerator.h"
 #include "core.hpp"
@@ -9,7 +10,7 @@ class SceneManager;
 using namespace std;
 
 enum type{ UNIFORM, GAUSSIAN };
-enum ProyectilType { bullet, canonBall, laser };
+enum ProyectilType { bullet, canonBall, laser, firework };
 
 const Vector3 GRAVITY = Vector3(0.0f, -10.0f, 0.0f);
 const int MAXPARTICLES = 2000;
@@ -24,22 +25,13 @@ private:
 
 	SceneManager* sMngr;
 
-	void deleteUnusedParticles();
 
 public:
 	ParticleSystem(SceneManager* SM);
 	~ParticleSystem();
+	void deleteUnusedParticles();
 	void update(double t);
 	void addParticleGenerator(type T);
+	void addParticles(list<Particle*> ptcls);
 	void createProyectile(ProyectilType type);
-
-	void PRUEBADISTRI() {
-		for (ParticleGenerator* p : particleGenerators) {
-			GaussianParticleGenerator* g = static_cast<GaussianParticleGenerator*>(p);
-			if (g != nullptr) {
-				float V = g->getVar() + 0.1;
-				g->changeDistribution(0, V);
-			}
-		}
-	}
 };

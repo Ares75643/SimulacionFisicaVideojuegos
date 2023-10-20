@@ -21,13 +21,10 @@ ParticleGenerator::~ParticleGenerator() {
 }
 
 void ParticleGenerator::setParticle(Particle* Model) {
-	delete(model);
 	model = Model;
 }
 
 void ParticleGenerator::update(float t) {
-	//velocity += aceleration * t; // Aceleracion
-	//velocity *= pow(damping, t); // Damping
 	position += velocity * t; // Movimiento
 
 	timeUntilNextGeneration -= t;

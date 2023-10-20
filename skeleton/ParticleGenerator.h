@@ -30,6 +30,7 @@ public:
 	~ParticleGenerator();
 
 	void setParticle(Particle* model);
+	void setNumParticles(int N) { particlesGenerated = N; }
 	virtual list<Particle*> generateParticles() = 0;
 	void update(float t);
 };
