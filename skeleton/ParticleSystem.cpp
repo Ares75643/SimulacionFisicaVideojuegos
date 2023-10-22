@@ -26,7 +26,7 @@ void ParticleSystem::update(double t) {
 }
 
 void ParticleSystem::deleteUnusedParticles() {
- 	for (auto it = particlesToDelete.begin(); it != particlesToDelete.end();) {
+  	for (auto it = particlesToDelete.begin(); it != particlesToDelete.end();) {
 		particles.remove(*it);
 		delete(*it);
 		it = particlesToDelete.erase(it);
@@ -107,8 +107,8 @@ void ParticleSystem::createProyectile(ProyectilType type) {
 		case firework: {
 			Vector3 Pos = sMngr->getCamera()->getEye() + sMngr->getCamera()->getDir() * 50 - Vector3(0, 20, 0);
 			Vector4 Color = Vector4(0, 255, 0, 255);
-			int t = rand() % 3;
-			p = new Firework(Pos, Vector3(0, 30, 0), Vector3(0, -4.8, 0), 1, 1, 2.5, 0.998, Color, t, this);
+			int t = rand()%4;
+			p = new Firework(Pos, Vector3(0, 60, 0), Vector3(0, -10, 0), 1, 1, 2.5, 0.998, Color, t, this);
 			break;
 		}
 		default:

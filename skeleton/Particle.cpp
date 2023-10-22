@@ -11,6 +11,7 @@ Particle::Particle(Vector3 Pos, Vector3 Vel, Vector3 Acl, float Size, float Mass
 	damping = Damp;
 
 	color = Color;
+	alive = true;
 }
 
 void Particle::init() {
