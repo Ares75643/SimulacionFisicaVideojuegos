@@ -14,9 +14,6 @@ Firework::~Firework() {
 
 void Firework::integrate(double t) {
 	Particle::integrate(t);
-	if (type != 4) {
-		int i = 0;
-	}
 	if (!alive) { pSys->addParticles(explode()); }
 }
 
@@ -66,7 +63,7 @@ void Firework::SummonParticles(list<Particle*>* l, GaussianParticleGenerator* g,
 	g->setParticle(p);
 	g->setNumParticles(N);
 
-	for (Particle* pt : g->generateParticles()) { l->push_back(pt); }
+	for (auto pt : g->generateParticles()) { l->push_back(pt); }
 }
 
 void Firework::SummonFireworks(list<Particle*>* l, GaussianParticleGenerator* g, int N, Vector4 Color, float Size, int Type) {

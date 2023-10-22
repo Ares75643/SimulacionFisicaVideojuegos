@@ -23,6 +23,7 @@ void ParticleSystem::update(double t) {
 	}
 
 	deleteUnusedParticles();
+	cout << nParticles << endl;
 }
 
 void ParticleSystem::deleteUnusedParticles() {
@@ -67,8 +68,13 @@ void ParticleSystem::addParticleGenerator(type T) {
 
 void ParticleSystem::addParticles(list<Particle*> ptcls) {
 	for (Particle* p : ptcls) {
-		particles.push_back(p);
-		nParticles++;
+		if (particles.size() < MAXPARTICLES) {
+			particles.push_back(p);
+			nParticles++;
+		}
+		else {
+			delete p;
+		}
 	}
 }
 
@@ -81,7 +87,7 @@ void ParticleSystem::createProyectile(ProyectilType type) {
 			p->setMass(2.0f);
 			p->setSpeed(60.0f);
 			p->setDamping(0.99f);
-			p->setLifeTime(1);
+			p->setLifeTime(5);
 			p->setSize(2);
 			p->setColor(Vector4(0, 0, 1, 1));
 			break;
@@ -91,6 +97,7 @@ void ParticleSystem::createProyectile(ProyectilType type) {
 			p->setSpeed(80.0f);
 			p->setAcceleration(Vector3(0.0f, -25.0f, 0.0f));
 			p->setDamping(0.99f);
+			p->setLifeTime(5);
 			p->setSize(5);
 			p->setColor(Vector4(1, 0, 0, 1));
 			break;
@@ -100,6 +107,7 @@ void ParticleSystem::createProyectile(ProyectilType type) {
 			p->setSpeed(100.0f);
 			p->setAcceleration(Vector3(0.0f, 0.0f, 0.0f)); // No gravity
 			p->setDamping(0.99f);
+			p->setLifeTime(5);
 			p->setSize(0.2f);
 			p->setColor(Vector4(0, 1, 1, 1));
 			break;
@@ -108,7 +116,7 @@ void ParticleSystem::createProyectile(ProyectilType type) {
 			Vector3 Pos = sMngr->getCamera()->getEye() + sMngr->getCamera()->getDir() * 50 - Vector3(0, 20, 0);
 			Vector4 Color = Vector4(0, 255, 0, 255);
 			int t = rand()%4;
-			p = new Firework(Pos, Vector3(0, 60, 0), Vector3(0, -10, 0), 1, 1, 2.5, 0.998, Color, t, this);
+			p = new Firework(Pos, Vector3(0, 45, 0), Vector3(0, -10, 0), 1, 1, 2.5, 0.998, Color, t, this);
 			break;
 		}
 		default:
@@ -116,7 +124,6 @@ void ParticleSystem::createProyectile(ProyectilType type) {
 		}
 		p->init();
 		particles.push_back(p);
-
 		nParticles++;
 	}
 }

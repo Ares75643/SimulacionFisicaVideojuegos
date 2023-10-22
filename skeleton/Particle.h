@@ -5,7 +5,7 @@
 class Particle {
 public:
 	Particle(Vector3 Pos, Vector3 Vel = Vector3(0, 0, 0), Vector3 Acl = Vector3(0, 0, 0), 
-		float Size = 1, float Mass = 1, float LifeTime = 25, float Damp = 0.998f, 
+		float Size = 1, float Mass = 1, float LifeTime = 15, float Damp = 0.998f, 
 		Vector4 Color = Vector4(0, 0, 1, 1));
 	~Particle();
 

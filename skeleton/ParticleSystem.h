@@ -5,6 +5,7 @@
 #include "UniformParticleGenerator.h"
 #include "GaussianParticleGenerator.h"
 #include "core.hpp"
+#include <iostream>
 class SceneManager;
 
 using namespace std;
@@ -13,7 +14,7 @@ enum type{ UNIFORM, GAUSSIAN };
 enum ProyectilType { bullet, canonBall, laser, firework };
 
 const Vector3 GRAVITY = Vector3(0.0f, -10.0f, 0.0f);
-const int MAXPARTICLES = 2000;
+const int MAXPARTICLES = 3000;
 
 class ParticleSystem {
 private:
