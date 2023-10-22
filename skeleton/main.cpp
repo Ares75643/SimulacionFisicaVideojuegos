@@ -115,7 +115,11 @@ void keyPress(unsigned char key, const PxTransform& camera) {
 			sceneManager->getParticleSys()->createProyectile(firework);
 			break;
 		case 'Q':
-			sceneManager->getParticleSys()->deleteUnusedParticles();
+			sceneManager->getParticleSys()->clear();
+			break;
+		case 'F':
+			sceneManager->getParticleSys()->addParticleGenerator(SNOW);
+			break;
 
 		default:
 			break;

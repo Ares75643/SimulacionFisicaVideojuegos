@@ -7,8 +7,13 @@ ParticleSystem::ParticleSystem(SceneManager* SM) {
 }
 
 ParticleSystem::~ParticleSystem() {
+	clear();
+}
+
+void ParticleSystem::clear() {
 	for (Particle* p : particles) { particlesToDelete.push_back(p); }
 	deleteUnusedParticles();
+	particleGenerators.clear();
 }
 
 void ParticleSystem::update(double t) {
@@ -63,6 +68,21 @@ void ParticleSystem::addParticleGenerator(type T) {
 		particleGenerators.push_back(new GaussianParticleGenerator("G", sMngr->getCamera()->getEye() + sMngr->getCamera()->getDir() * 50, perpendicular * 25, p, 5, 1000, 0.99, 0.2));
 		break;
 	}
+	case SNOW:
+		Particle* p = new Particle(sMngr->getCamera()->getEye(), sMngr->getCamera()->getDir(), Vector3(0, -3, 0));
+		p->setMass(2.0f);
+		p->setSpeed(0.001);
+		p->setDamping(0.998f);
+		p->setLifeTime(7);
+		p->setSize(0.6);
+		p->setColor(Vector4(1, 1, 1, 0.1));
+
+		Vector3 perpendicular = Vector3(0, 1, 0).cross(sMngr->getCamera()->getDir());
+		GaussianParticleGenerator* snow = new GaussianParticleGenerator("G", sMngr->getCamera()->getEye() + Vector3(0, 50, 0), perpendicular * 10, p, 20, 1000, 0.99, 0.2);
+		snow->changeDistribution(5, 10);
+		particleGenerators.push_back(snow);
+
+		break;
 	}
 }
 

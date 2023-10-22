@@ -10,7 +10,7 @@ class SceneManager;
 
 using namespace std;
 
-enum type{ UNIFORM, GAUSSIAN };
+enum type{ UNIFORM, GAUSSIAN, SNOW };
 enum ProyectilType { bullet, canonBall, laser, firework };
 
 const Vector3 GRAVITY = Vector3(0.0f, -10.0f, 0.0f);
@@ -30,6 +30,7 @@ private:
 public:
 	ParticleSystem(SceneManager* SM);
 	~ParticleSystem();
+	void clear();
 	void deleteUnusedParticles();
 	void update(double t);
 	void addParticleGenerator(type T);
