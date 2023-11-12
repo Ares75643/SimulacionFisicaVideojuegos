@@ -120,6 +120,9 @@ void keyPress(unsigned char key, const PxTransform& camera) {
 		case 'F':
 			sceneManager->getParticleSys()->addParticleGenerator(SNOW);
 			break;
+		case 'O':
+			sceneManager->getParticleSys()->addGravity();
+			break;
 
 		default:
 			break;

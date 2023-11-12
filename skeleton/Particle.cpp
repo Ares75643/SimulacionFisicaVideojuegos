@@ -2,6 +2,7 @@
 
 Particle::Particle(Vector3 Pos, Vector3 Vel, Vector3 Acl, float Size, float Mass, float LifeTime, float Damp, Vector4 Color) {
 	pose = physx::PxTransform(Pos.x, Pos.y, Pos.z);
+	force = Vector3(0,0,0);
 	velocity = Vel;
 	aceleration = Acl;
 
@@ -9,6 +10,9 @@ Particle::Particle(Vector3 Pos, Vector3 Vel, Vector3 Acl, float Size, float Mass
 	size = Size;
 	mass = Mass;
 	damping = Damp;
+
+	if (mass > 0) { invMass = (1 / mass); }
+	else { invMass = INTMAX_MAX; }
 
 	color = Color;
 	alive = true;
@@ -23,6 +27,8 @@ Particle::~Particle() {
 }
 
 void Particle::integrate(double t) {
+	aceleration = force * invMass;
+
 	velocity += aceleration * t; // Aceleracion
 	velocity *= pow(damping, t); // Damping
 	pose.p += velocity * t; // Movimiento
@@ -30,4 +36,6 @@ void Particle::integrate(double t) {
 	// Eliminar partícula
 	lifeTime -= t;
 	if (lifeTime < 0) alive = false;
+
+	clearAcum(); // La fuerza ejercida sobre la particula se calcula cada frame
 }

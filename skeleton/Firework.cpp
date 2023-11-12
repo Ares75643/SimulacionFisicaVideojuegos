@@ -49,7 +49,6 @@ list<Particle*> Firework::explode() {
 	default:
 		break;
 	}
-
 	return pList;
 }
 
