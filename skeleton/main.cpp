@@ -120,8 +120,17 @@ void keyPress(unsigned char key, const PxTransform& camera) {
 		case 'F':
 			sceneManager->getParticleSys()->addParticleGenerator(SNOW);
 			break;
-		case 'O':
+		case '1':
 			sceneManager->getParticleSys()->addGravity();
+			break;
+		case '2':
+			sceneManager->getParticleSys()->addWind();
+			break;
+		case '3':
+			sceneManager->getParticleSys()->addTornado();
+			break;
+		case '4':
+			sceneManager->getParticleSys()->addExplosion();
 			break;
 
 		default:

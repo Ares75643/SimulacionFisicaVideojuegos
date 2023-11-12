@@ -7,6 +7,8 @@
 #include "ParticleForceRegistry.h"
 #include "GravityForceGenerator.h"
 #include "WindForceGenerator.h"
+#include "TornadoForceGenerator.h"
+#include "ExplosionForceGenerator.h"
 #include "core.hpp"
 #include <iostream>
 #include <map>
@@ -43,8 +45,21 @@ public:
 	void createProyectile(ProyectilType T);
 
 	void addGravity() {
+		GravityForceGenerator* g = new GravityForceGenerator(Vector3(0, 9.8, 0));
+		for (auto p : particles)
+			forceRegistry.addRegistry(g, p);
+	}
+	void addWind() {
 		WindForceGenerator* wind = new WindForceGenerator(Vector3(-60, 0, 0), 0.25, 0.1);
 		for (auto p : particles)
 			forceRegistry.addRegistry(wind, p);
+	}
+	void addTornado() {
+		TornadoForceGenerator* t = new TornadoForceGenerator(Vector3(0,0,0),Vector3(-60, 0, 0), 2, 0.25, 0.1);
+		for (auto p : particles)
+			forceRegistry.addRegistry(t, p);
+	}
+	void addExplosion() {
+		
 	}
 };
