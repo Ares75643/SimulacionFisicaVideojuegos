@@ -6,7 +6,7 @@ WindForceGenerator::WindForceGenerator(const Vector3& W, const float K1, const f
 }
 
 void WindForceGenerator::updateForce(Particle* particle, double t) {
-    if (fabs(particle->getInvMass()) < 1e-10) return;
+    if (fabs(particle->getInvMass()) < 1e-10) return; // Comprueba si la particula tiene masa
     
     Vector3 v = particle->getVelocity() - windVelocity; 
     float windCoef = v.normalize();

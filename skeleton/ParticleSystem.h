@@ -60,6 +60,8 @@ public:
 			forceRegistry.addRegistry(t, p);
 	}
 	void addExplosion() {
-		
+		ExplosionForceGenerator* megumin = new ExplosionForceGenerator(Vector3(0, 0, 0));
+			for (auto p : particles)
+				forceRegistry.addRegistry(megumin, p);
 	}
 };

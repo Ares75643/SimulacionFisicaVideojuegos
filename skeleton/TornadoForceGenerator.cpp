@@ -6,9 +6,11 @@ TornadoForceGenerator::TornadoForceGenerator(Vector3 Origin, Vector3 WindVel, co
 }
 
 void TornadoForceGenerator::updateForce(Particle* particle, double t){
-	if (fabs(particle->getInvMass()) < 1e-10) return; // Comprueva si la particula tiene masa
+	if (fabs(particle->getInvMass()) < 1e-10) return; // Comprueba si la particula tiene masa
 	
-	windVelocity = k * Vector3(-(particle->getPos().z - origin.z), 50 - (particle->getPos().y - origin.y), particle->getPos().x - origin.x);
+	// Calcula la velocidad del viento
+	windVelocity = k * Vector3(-(particle->getPos().z - origin.z), 50 - (particle->getPos().y - origin.y), particle->getPos().x - origin.x); 
+	// Aplica el updateForce del WindGenerator
 	Vector3 v = particle->getVelocity() - windVelocity;
 	float tCoef = v.normalize();
 	tCoef = k1 * tCoef + k2 * tCoef * tCoef;
@@ -16,4 +18,3 @@ void TornadoForceGenerator::updateForce(Particle* particle, double t){
 
 	particle->addForce(tForce);
 }
-
