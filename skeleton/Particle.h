@@ -55,6 +55,7 @@ public:
 	inline float getLifeTime(){ return lifeTime; }
 	inline float getSize() { return size; }
 	inline Vector4 getColor() { return color; }
+	inline Vector3 getForce() { return force; }
 	inline bool isAlive() { return alive; }
 
 	//Copiar

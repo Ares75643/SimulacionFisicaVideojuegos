@@ -20,7 +20,7 @@ list<Particle*> GaussianParticleGenerator::generateParticles() {
 				Particle* p = model->clone();
 				p->setPosition(position + Vector3(distribution(generator), distribution(generator), distribution(generator)));
 				p->setVelocity(pVelocity + Vector3(distribution(generator), distribution(generator), distribution(generator)));
-				p->setAcceleration(Vector3(0, -9.8, 0));
+				p->setAcceleration(Vector3(0, 0, 0));
 				p->setLifeTime(p->getLifeTime() + distribution(generator) * 0.5);
 				p->init();
 				generated.push_back(p);

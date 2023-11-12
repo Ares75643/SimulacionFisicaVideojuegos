@@ -46,6 +46,7 @@ void ParticleSystem::update(double t) {
 
 void ParticleSystem::deleteUnusedParticles() {
   	for (auto it = particlesToDelete.begin(); it != particlesToDelete.end();) {
+		forceRegistry.deleteParticleRegistry(*it);
 		particles.remove(*it);
 		delete(*it);
 		it = particlesToDelete.erase(it);
@@ -104,10 +105,6 @@ void ParticleSystem::addParticles(list<Particle*> ptcls) {
 		if (particles.size() < MAXPARTICLES) {
 			particles.push_back(p);
 			nParticles++;
-
-			if (forceGenerators.size() > 1) {
-				int i = 0;
-			}
 			for (auto fg : forceGenerators) { // Añade las particulas al registro de fuerzas 
 				forceRegistry.addRegistry(fg, p);
 			}
@@ -120,7 +117,7 @@ void ParticleSystem::addParticles(list<Particle*> ptcls) {
 
 void ParticleSystem::createProyectile(ProyectilType T) {
 	if (particles.size() < MAXPARTICLES) {
-		Particle* p = new Particle(sMngr->getCamera()->getEye(), sMngr->getCamera()->getDir(), Vector3(0, -9.8, 0));
+		Particle* p = new Particle(sMngr->getCamera()->getEye(), sMngr->getCamera()->getDir());
 
 		switch (T) {
 		case bullet: {
@@ -133,9 +130,8 @@ void ParticleSystem::createProyectile(ProyectilType T) {
 			break;
 		}
 		case canonBall: {
-			p->setMass(800.0f);
+			p->setMass(200.0f);
 			p->setSpeed(80.0f);
-			p->setAcceleration(Vector3(0.0f, -25.0f, 0.0f));
 			p->setDamping(0.99f);
 			p->setLifeTime(5);
 			p->setSize(5);
@@ -143,9 +139,8 @@ void ParticleSystem::createProyectile(ProyectilType T) {
 			break;
 		}
 		case laser: {
-			p->setMass(0.001f);
+			p->setMass(0);
 			p->setSpeed(100.0f);
-			p->setAcceleration(Vector3(0.0f, 0.0f, 0.0f)); // No gravity
 			p->setDamping(0.99f);
 			p->setLifeTime(5);
 			p->setSize(0.2f);
@@ -166,9 +161,7 @@ void ParticleSystem::createProyectile(ProyectilType T) {
 		particles.push_back(p);
 		nParticles++;
 
-		
 		for (auto fg : forceGenerators) // Añade las particulas al registro de fuerzas 
 			forceRegistry.addRegistry(fg, p);
-		
 	}
 }
