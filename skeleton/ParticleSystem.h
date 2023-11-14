@@ -64,4 +64,6 @@ public:
 			for (auto p : particles)
 				forceRegistry.addRegistry(megumin, p);
 	}
+
+	void explosionParticles();
 };

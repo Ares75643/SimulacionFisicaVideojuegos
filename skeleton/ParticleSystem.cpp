@@ -165,3 +165,13 @@ void ParticleSystem::createProyectile(ProyectilType T) {
 			forceRegistry.addRegistry(fg, p);
 	}
 }
+
+void ParticleSystem::explosionParticles() {
+	Particle* p = new Particle(Vector3(0, 0, 0), Vector3(0, 0, 0), Vector3(0, 0, 0));
+	p->setColor(Vector4(1, 1, 0, 1));
+
+	GaussianParticleGenerator* u = new GaussianParticleGenerator("G", Vector3(0, 0, 0), Vector3(0, 0, 0), p, 5, 1000, 1, 0.2);
+	u->changeDistribution(0, 15);
+
+	particleGenerators.push_back(u);
+}

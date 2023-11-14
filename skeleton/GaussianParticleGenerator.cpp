@@ -19,7 +19,9 @@ list<Particle*> GaussianParticleGenerator::generateParticles() {
 			if (generationProbability * 100 >= (rand() % 100 + 1)) { // Probabilidad de generar
 				Particle* p = model->clone();
 				p->setPosition(position + Vector3(distribution(generator), distribution(generator), distribution(generator)));
-				p->setVelocity(pVelocity + Vector3(distribution(generator), distribution(generator), distribution(generator)));
+				if (pVelocity.magnitudeSquared() != 0) {
+					p->setVelocity(pVelocity + Vector3(distribution(generator), distribution(generator), distribution(generator)));
+				}
 				p->setAcceleration(Vector3(0, 0, 0));
 				p->setLifeTime(p->getLifeTime() + distribution(generator) * 0.5);
 				p->init();

@@ -132,6 +132,9 @@ void keyPress(unsigned char key, const PxTransform& camera) {
 		case '4':
 			sceneManager->getParticleSys()->addExplosion();
 			break;
+		case 'E':
+			sceneManager->getParticleSys()->explosionParticles();
+			break;
 
 		default:
 			break;
