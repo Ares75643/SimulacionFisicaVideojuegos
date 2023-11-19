@@ -41,6 +41,7 @@ void ParticleSystem::update(double t) {
 	}
 
 	deleteUnusedParticles();
+
 	cout << nParticles << endl;
 }
 
@@ -183,4 +184,42 @@ void ParticleSystem::explosionParticles() {
 	u->changeDistribution(0, 15);
 
 	particleGenerators.push_back(u);
+}
+
+void ParticleSystem::addSpring(SpringTipe T){
+	switch (T) {
+	case S_DEFAULT: {
+		Particle* p1 = new Particle(sMngr->getCamera()->getEye() + sMngr->getCamera()->getDir() * 50, Vector3(0, 0, 0), Vector3(0, 0, 0));
+		Particle* p2 = new Particle(sMngr->getCamera()->getEye() + sMngr->getCamera()->getDir() * 50 + Vector3(10, 0, 0), Vector3(0, 0, 0), Vector3(0, 0, 0));
+		p2->setMass(2.0);
+		p1->setLifeTime(30); p2->setLifeTime(30);
+		p1->init(); p2->init();
+		nParticles += 2;
+
+		SpringForceGenerator* f1 = new SpringForceGenerator(15, 20, p2);
+		forceRegistry.addRegistry(f1, p1);
+
+		SpringForceGenerator* f2 = new SpringForceGenerator(15, 20, p1);
+		forceRegistry.addRegistry(f2, p2);
+
+		particles.push_back(p1);
+		particles.push_back(p2);
+		break;
+	}
+	case S_STATIC: {
+		Particle* p3 = new Particle(sMngr->getCamera()->getEye() + sMngr->getCamera()->getDir() * 50, Vector3(0, 0, 0), Vector3(0, 0, 0));
+		p3->init();
+		p3->setLifeTime(30);
+		nParticles += 2;
+
+		StaticSpringForceGenerator* f3 = new StaticSpringForceGenerator(5, 10, sMngr->getCamera()->getEye() + sMngr->getCamera()->getDir() * 50 + Vector3(0, 0, 20));
+		forceRegistry.addRegistry(f3, p3);
+		particles.push_back(p3);
+		break;
+	}
+	case S_:
+		break;
+	default:
+		break;
+	}
 }

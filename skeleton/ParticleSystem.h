@@ -9,6 +9,8 @@
 #include "WindForceGenerator.h"
 #include "TornadoForceGenerator.h"
 #include "ExplosionForceGenerator.h"
+#include "SpringForceGenerator.h"
+#include "StaticSpringForceGenerator.h"
 #include "core.hpp"
 #include <iostream>
 #include <map>
@@ -18,6 +20,7 @@ using namespace std;
 
 enum ParticleGeneratorType{ UNIFORM, GAUSSIAN, SNOW };
 enum ProyectilType { bullet, canonBall, laser, firework };
+enum SpringTipe { S_DEFAULT, S_STATIC, S_};
 
 const Vector3 GRAVITY = Vector3(0.0f, -10.0f, 0.0f);
 const int MAXPARTICLES = 3000;
@@ -66,4 +69,6 @@ public:
 	}
 
 	void explosionParticles();
+
+	void addSpring(SpringTipe T);
 };

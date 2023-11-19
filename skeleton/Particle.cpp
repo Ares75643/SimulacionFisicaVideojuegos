@@ -38,4 +38,6 @@ void Particle::integrate(double t) {
 	if (lifeTime < 0) alive = false;
 
 	clearAcum(); // La fuerza ejercida sobre la particula se calcula cada frame
+
+	//std::cout << getPos().x << " " << getPos().y << " " << getPos().z << std::endl;
 }

@@ -45,6 +45,10 @@
     <ClCompile Include="Particle.cpp">
       <Filter>Objects</Filter>
     </ClCompile>
+    <ClCompile Include="SpringForceGenerator.cpp">
+      <Filter>ForceGenerators</Filter>
+    </ClCompile>
+    <ClCompile Include="StaticSpringForceGenerator.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="core.hpp" />
@@ -91,6 +95,10 @@
     <ClInclude Include="Particle.h">
       <Filter>Objects</Filter>
     </ClInclude>
+    <ClInclude Include="SpringForceGenerator.h">
+      <Filter>ForceGenerators</Filter>
+    </ClInclude>
+    <ClInclude Include="StaticSpringForceGenerator.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Render">
