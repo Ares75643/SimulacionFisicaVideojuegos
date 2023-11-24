@@ -20,7 +20,7 @@ using namespace std;
 
 enum ParticleGeneratorType{ UNIFORM, GAUSSIAN, SNOW };
 enum ProyectilType { bullet, canonBall, laser, firework };
-enum SpringTipe { S_DEFAULT, S_STATIC, S_};
+enum SpringTipe { S_DEFAULT, S_STATIC, S_SLINKY};
 
 const Vector3 GRAVITY = Vector3(0.0f, -10.0f, 0.0f);
 const int MAXPARTICLES = 3000;
@@ -58,17 +58,26 @@ public:
 			forceRegistry.addRegistry(wind, p);
 	}
 	void addTornado() {
-		TornadoForceGenerator* t = new TornadoForceGenerator(Vector3(0,0,0),Vector3(-60, 0, 0), 2, 0.25, 0.1);
+		TornadoForceGenerator* t = new TornadoForceGenerator(Vector3(0, 0, 0), Vector3(-60, 0, 0), 2, 0.25, 0.1);
 		for (auto p : particles)
 			forceRegistry.addRegistry(t, p);
 	}
 	void addExplosion() {
 		ExplosionForceGenerator* megumin = new ExplosionForceGenerator(Vector3(0, 0, 0));
-			for (auto p : particles)
-				forceRegistry.addRegistry(megumin, p);
+		for (auto p : particles)
+			forceRegistry.addRegistry(megumin, p);
 	}
 
 	void explosionParticles();
 
 	void addSpring(SpringTipe T);
+
+	void addKToAllSprings() {
+		for (auto FG : forceRegistry.getRegistry()) {
+			SpringForceGenerator* SF = static_cast<SpringForceGenerator*>(FG.first);
+			if (SF != nullptr) {
+				SF->addK(100);
+			}
+		}
+	}
 };

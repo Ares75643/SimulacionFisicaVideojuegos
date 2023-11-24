@@ -9,7 +9,7 @@ SpringForceGenerator::SpringForceGenerator(double K, double RestingLength, Parti
 void SpringForceGenerator::updateForce(Particle* particle, double t) {
 	Vector3 distanceBP = other->getPos() - particle->getPos();
 
-	const float length = distanceBP.normalize(); // Suma de sus radios
+	const float length = distanceBP.normalize();
 	const float deltaX = length - restingLength;
 	
 	Vector3 force = distanceBP * deltaX * k;

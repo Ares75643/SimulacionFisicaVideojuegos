@@ -10,7 +10,9 @@ ParticleSystem::ParticleSystem(SceneManager* SM) {
 }
 
 ParticleSystem::~ParticleSystem() {
-	for (Particle* p : particles) { particlesToDelete.push_back(p); }
+	for (Particle* p : particles) 
+		particlesToDelete.push_back(p);
+
 	deleteUnusedParticles();
 	particleGenerators.clear();
 	forceGenerators.clear();
@@ -18,7 +20,9 @@ ParticleSystem::~ParticleSystem() {
 }
 
 void ParticleSystem::clear() {
-	for (Particle* p : particles) { particlesToDelete.push_back(p); }
+	for (Particle* p : particles) 
+		particlesToDelete.push_back(p);
+
 	deleteUnusedParticles();
 	particleGenerators.clear();
 	forceGenerators.clear();
@@ -189,8 +193,8 @@ void ParticleSystem::explosionParticles() {
 void ParticleSystem::addSpring(SpringTipe T){
 	switch (T) {
 	case S_DEFAULT: {
-		Particle* p1 = new Particle(sMngr->getCamera()->getEye() + sMngr->getCamera()->getDir() * 50, Vector3(0, 0, 0), Vector3(0, 0, 0));
-		Particle* p2 = new Particle(sMngr->getCamera()->getEye() + sMngr->getCamera()->getDir() * 50 + Vector3(10, 0, 0), Vector3(0, 0, 0), Vector3(0, 0, 0));
+		Particle* p1 = new Particle(sMngr->getCamera()->getEye() + sMngr->getCamera()->getDir() * 50, Vector3(0, 0, 0));
+		Particle* p2 = new Particle(sMngr->getCamera()->getEye() + sMngr->getCamera()->getDir() * 50 + Vector3(0, 15, 0), Vector3(0, 0, 0));
 		p2->setMass(2.0);
 		p1->setLifeTime(30); p2->setLifeTime(30);
 		p1->init(); p2->init();
@@ -212,13 +216,38 @@ void ParticleSystem::addSpring(SpringTipe T){
 		p3->setLifeTime(30);
 		nParticles += 2;
 
-		StaticSpringForceGenerator* f3 = new StaticSpringForceGenerator(5, 10, sMngr->getCamera()->getEye() + sMngr->getCamera()->getDir() * 50 + Vector3(0, 0, 20));
-		forceRegistry.addRegistry(f3, p3);
+		StaticSpringForceGenerator* f = new StaticSpringForceGenerator(5, 10, sMngr->getCamera()->getEye() + sMngr->getCamera()->getDir() * 50 + Vector3(0, 0, 20));
+		forceRegistry.addRegistry(f, p3);
 		particles.push_back(p3);
+		particles.push_back(f->getOther());
 		break;
 	}
-	case S_:
+	case S_SLINKY: {
+		int SLINKY_SIZE = 7; float BETWEEN_SIZE = 15;
+
+		Particle* prev = new Particle(sMngr->getCamera()->getEye() + sMngr->getCamera()->getDir() * 50 + Vector3(0, 0, 0),
+			Vector3(0, 0, 0), Vector3(0, 0, 0), 1.5, 2, 40, 0.998, Vector4(0.5, 0.5, 0, 1));
+		prev->init();
+		particles.push_back(prev);
+
+		for (int i = 0; i < SLINKY_SIZE - 1; ++i) {
+			Particle* p = new Particle(sMngr->getCamera()->getEye() + sMngr->getCamera()->getDir() * 50 + Vector3(0, BETWEEN_SIZE * i, 0),
+				Vector3(0, 0, 0), Vector3(0, 0, 0), 1.5, 2, 40, 0.998, Vector4(0.5, 0.5, 0, 1));
+			p->init();
+			particles.push_back(p);
+
+
+			SpringForceGenerator* sf = new SpringForceGenerator(15, 20, p);
+			forceRegistry.addRegistry(sf, prev);
+
+			sf = new SpringForceGenerator(15, 20, prev);
+			forceRegistry.addRegistry(sf, p);
+
+			prev = p;
+		}
+		nParticles += SLINKY_SIZE;
 		break;
+	}
 	default:
 		break;
 	}

@@ -11,6 +11,9 @@ public:
 	SpringForceGenerator(double K, double RestingLength, Particle* Other);
 	~SpringForceGenerator(){}
 	void updateForce(Particle* particle, double t);
+
+	Particle* getOther() { return other; }
+
 	inline void setK(double K) { k = K; }
 	inline void addK(double K) { k += K; }
 };

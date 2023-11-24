@@ -48,7 +48,9 @@
     <ClCompile Include="SpringForceGenerator.cpp">
       <Filter>ForceGenerators</Filter>
     </ClCompile>
-    <ClCompile Include="StaticSpringForceGenerator.cpp" />
+    <ClCompile Include="StaticSpringForceGenerator.cpp">
+      <Filter>ForceGenerators</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="core.hpp" />
@@ -98,7 +100,9 @@
     <ClInclude Include="SpringForceGenerator.h">
       <Filter>ForceGenerators</Filter>
     </ClInclude>
-    <ClInclude Include="StaticSpringForceGenerator.h" />
+    <ClInclude Include="StaticSpringForceGenerator.h">
+      <Filter>ForceGenerators</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Render">

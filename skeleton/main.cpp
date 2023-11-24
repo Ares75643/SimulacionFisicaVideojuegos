@@ -138,8 +138,14 @@ void keyPress(unsigned char key, const PxTransform& camera) {
 		case '6':
 			sceneManager->getParticleSys()->addSpring(S_STATIC);
 			break;
+		case '7':
+			sceneManager->getParticleSys()->addSpring(S_SLINKY);
+			break;
 		case 'E':
 			sceneManager->getParticleSys()->explosionParticles();
+			break;
+		case 'K':
+			sceneManager->getParticleSys()->addKToAllSprings();
 			break;
 
 		default:

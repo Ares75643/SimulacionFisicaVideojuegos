@@ -17,4 +17,5 @@ public:
 	void deleteParticleRegistry(Particle* p);
 	void deleteForceRegistry(ForceGenerator* f);
 	void updateForces(double t);
+	multimap<ForceGenerator*, Particle*> const & getRegistry() { return registry; }
 };
