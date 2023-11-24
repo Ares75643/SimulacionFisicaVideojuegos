@@ -216,7 +216,7 @@ void ParticleSystem::addSpring(SpringTipe T){
 		p3->setLifeTime(30);
 		nParticles += 2;
 
-		StaticSpringForceGenerator* f = new StaticSpringForceGenerator(5, 10, sMngr->getCamera()->getEye() + sMngr->getCamera()->getDir() * 50 + Vector3(0, 0, 20));
+		StaticSpringForceGenerator* f = new StaticSpringForceGenerator(5, 15, sMngr->getCamera()->getEye() + sMngr->getCamera()->getDir() * 50 + Vector3(0, 0, 10));
 		forceRegistry.addRegistry(f, p3);
 		particles.push_back(p3);
 		particles.push_back(f->getOther());
