@@ -3,7 +3,7 @@
 #include "core.hpp"
 #include "RenderUtils.hpp"
 
-enum P_SHAPE {p_sphere, p_cube};
+enum P_SHAPE {p_sphere, p_cube, p_plane};
 
 class Particle {
 protected:

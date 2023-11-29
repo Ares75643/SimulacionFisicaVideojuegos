@@ -82,11 +82,12 @@ public:
 		}
 	}
 	void activateBuoyancy(){
-		BuoyancyForceGenerator* water = new BuoyancyForceGenerator(1, 100, 997);
+		BuoyancyForceGenerator* water = new BuoyancyForceGenerator(2, 0.5, 1000);
 		Particle* p = new Particle(Vector3(0, 10, 0), Vector3(0, 0, 0), Vector3(0, 0, 0), 1);
-		p->setMass(10);
+		p->setMass(300);
 		p->setShape(p_cube);
-		p->setLifeTime(40);
+		p->setLifeTime(100);
+		p->setColor(Vector4(1, 0, 0, 1));
 		p->init();
 
 		nParticles++;
