@@ -46,7 +46,7 @@ void ParticleSystem::update(double t) {
 
 	deleteUnusedParticles();
 
-	cout << nParticles << endl;
+	//cout << nParticles << endl;
 }
 
 void ParticleSystem::deleteUnusedParticles() {

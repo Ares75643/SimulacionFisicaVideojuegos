@@ -82,20 +82,48 @@ public:
 		}
 	}
 	void activateBuoyancy(){
-		BuoyancyForceGenerator* water = new BuoyancyForceGenerator(2, 0.5, 1000);
+		BuoyancyForceGenerator* water = new BuoyancyForceGenerator(1, 0.5, 1000);
 		Particle* p = new Particle(Vector3(0, 10, 0), Vector3(0, 0, 0), Vector3(0, 0, 0), 1);
 		p->setMass(300);
 		p->setShape(p_cube);
-		p->setLifeTime(100);
+		p->setLifeTime(1000);
 		p->setColor(Vector4(1, 0, 0, 1));
 		p->init();
 
-		nParticles++;
+		Particle* p1 = new Particle(Vector3(10, 10, 0), Vector3(0, 0, 0), Vector3(0, 0, 0), 1);
+		p1->setMass(30000);
+		p1->setShape(p_cube);
+		p1->setLifeTime(1000);
+		p1->setColor(Vector4(1, 1, 0, 1));
+		p1->init();
+
+		Particle* p2 = new Particle(Vector3(20, 10, 0), Vector3(0, 0, 0), Vector3(0, 0, 0), 1);
+		p2->setMass(2);
+		p2->setShape(p_cube);
+		p2->setLifeTime(1000);
+		p2->setColor(Vector4(0, 1, 0, 1));
+		p2->init();
+
+		Particle* p3 = new Particle(Vector3(30, 0, 0), Vector3(0, 0, 0), Vector3(0, 0, 0), 1);
+		p3->setMass(26);
+		p3->setShape(p_cube);
+		p3->setLifeTime(1000);
+		p3->setColor(Vector4(0, 1, 1, 1));
+		p3->init();
+
+		nParticles+=4;
 
 		particles.push_back(p);
+		particles.push_back(p1);
+		particles.push_back(p2);
+		particles.push_back(p3);
 		forceGenerators.push_back(water);
 
-		for (auto fg : forceGenerators) // Añade las particulas al registro de fuerzas 
+		for (auto fg : forceGenerators) { // Añade las particulas al registro de fuerzas 
 			forceRegistry.addRegistry(fg, p);
+			forceRegistry.addRegistry(fg, p1);
+			forceRegistry.addRegistry(fg, p2);
+			forceRegistry.addRegistry(fg, p3);
+		}
 	}
 };

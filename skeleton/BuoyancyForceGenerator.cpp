@@ -36,6 +36,8 @@ void BuoyancyForceGenerator::updateForce(Particle* particle, double t) {
 
 		BuoyancyForce.y = liquidDensity * volume * inmersed * gravity;
 
+		if (BuoyancyForce.y != 0) cout << BuoyancyForce.y << endl;
+
 		particle->addForce(BuoyancyForce);
 	}
 }
