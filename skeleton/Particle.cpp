@@ -1,6 +1,6 @@
 #include "Particle.h"
 
-Particle::Particle(Vector3 Pos, Vector3 Vel, Vector3 Acl, float Size, float Mass, float LifeTime, float Damp, Vector4 Color) {
+Particle::Particle(Vector3 Pos, Vector3 Vel, Vector3 Acl, float Size, float Mass, float LifeTime, float Damp, Vector4 Color, P_SHAPE Shape) {
 	pose = physx::PxTransform(Pos.x, Pos.y, Pos.z);
 	force = Vector3(0,0,0);
 	velocity = Vel;
@@ -15,11 +15,15 @@ Particle::Particle(Vector3 Pos, Vector3 Vel, Vector3 Acl, float Size, float Mass
 	else { invMass = INTMAX_MAX; }
 
 	color = Color;
+	shape = Shape;
 	alive = true;
 }
 
 void Particle::init() {
-	renderItem = new RenderItem(CreateShape(physx::PxSphereGeometry(size)), &pose, color);
+	if(shape == p_sphere)
+		renderItem = new RenderItem(CreateShape(physx::PxSphereGeometry(size)), &pose, color);
+	else if(shape == p_cube)
+		renderItem = new RenderItem(CreateShape(physx::PxBoxGeometry(size, size, size)), &pose, color);
 }
 
 Particle::~Particle() {

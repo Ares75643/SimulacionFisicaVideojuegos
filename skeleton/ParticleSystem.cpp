@@ -110,9 +110,8 @@ void ParticleSystem::addParticles(list<Particle*> ptcls) {
 		if (particles.size() < MAXPARTICLES) {
 			particles.push_back(p);
 			nParticles++;
-			for (auto fg : forceGenerators) { // Añade las particulas al registro de fuerzas 
+			for (auto fg : forceGenerators) // Añade las particulas al registro de fuerzas 
 				forceRegistry.addRegistry(fg, p);
-			}
 		}
 		else {
 			delete p;

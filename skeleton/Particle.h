@@ -3,6 +3,8 @@
 #include "core.hpp"
 #include "RenderUtils.hpp"
 
+enum P_SHAPE {p_sphere, p_cube};
+
 class Particle {
 protected:
 	Vector3 force; // N
@@ -17,14 +19,15 @@ protected:
 	bool alive;
 
 	Vector4 color;
+	P_SHAPE shape;
 
 	physx::PxTransform pose;
 	RenderItem* renderItem;
 
 public:
-	Particle(Vector3 Pos, Vector3 Vel = Vector3(0, 0, 0), Vector3 Acl = Vector3(0, 0, 0), 
-		float Size = 1, float Mass = 1, float LifeTime = 15, float Damp = 0.998f, 
-		Vector4 Color = Vector4(0, 0, 1, 1));
+	Particle(Vector3 Pos, Vector3 Vel = Vector3(0, 0, 0), Vector3 Acl = Vector3(0, 0, 0),
+		float Size = 1, float Mass = 1, float LifeTime = 15, float Damp = 0.998f,
+		Vector4 Color = Vector4(0, 0, 1, 1), P_SHAPE Shape = p_sphere);
 	~Particle();
 
 	void init();
@@ -44,6 +47,7 @@ public:
 	inline void setLifeTime(float T) { lifeTime = T; }
 	inline void setSize(float S) { size = S; }
 	inline void setColor(Vector4 C) { color = C; }
+	inline void setShape(P_SHAPE S) { shape = S; }
 
 	//Getters
 	inline Vector3 getPos() { return Vector3(pose.p.x, pose.p.y, pose.p.z); }

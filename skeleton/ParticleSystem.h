@@ -11,6 +11,7 @@
 #include "ExplosionForceGenerator.h"
 #include "SpringForceGenerator.h"
 #include "StaticSpringForceGenerator.h"
+#include "BuoyancyForceGenerator.h"
 #include "core.hpp"
 #include <iostream>
 #include <map>
@@ -79,5 +80,21 @@ public:
 				SF->addK(100);
 			}
 		}
+	}
+	void activateBuoyancy(){
+		BuoyancyForceGenerator* water = new BuoyancyForceGenerator(1, 100, 997);
+		Particle* p = new Particle(Vector3(0, 10, 0), Vector3(0, 0, 0), Vector3(0, 0, 0), 1);
+		p->setMass(10);
+		p->setShape(p_cube);
+		p->setLifeTime(40);
+		p->init();
+
+		nParticles++;
+
+		particles.push_back(p);
+		forceGenerators.push_back(water);
+
+		for (auto fg : forceGenerators) // Añade las particulas al registro de fuerzas 
+			forceRegistry.addRegistry(fg, p);
 	}
 };

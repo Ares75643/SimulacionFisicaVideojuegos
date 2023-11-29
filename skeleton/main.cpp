@@ -141,6 +141,9 @@ void keyPress(unsigned char key, const PxTransform& camera) {
 		case '7':
 			sceneManager->getParticleSys()->addSpring(S_SLINKY);
 			break;
+		case '8':
+			sceneManager->getParticleSys()->activateBuoyancy();
+			break;
 		case 'E':
 			sceneManager->getParticleSys()->explosionParticles();
 			break;
@@ -157,7 +160,6 @@ void onCollision(physx::PxActor* actor1, physx::PxActor* actor2) {
 	PX_UNUSED(actor1);
 	PX_UNUSED(actor2);
 }
-
 
 int main(int, const char*const*) {
 #ifndef OFFLINE_EXECUTION 

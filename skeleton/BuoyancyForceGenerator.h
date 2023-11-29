@@ -11,6 +11,5 @@ public:
 	BuoyancyForceGenerator(float Height, float Volume, float LiquidDensity);
 	~BuoyancyForceGenerator();
 	
-	virtual void updateForce(Particle* particle);
+	virtual void updateForce(Particle* particle, double t);
 };
-
