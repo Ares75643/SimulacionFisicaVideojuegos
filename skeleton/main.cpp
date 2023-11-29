@@ -150,6 +150,12 @@ void keyPress(unsigned char key, const PxTransform& camera) {
 		case 'K':
 			sceneManager->getParticleSys()->addKToAllSprings();
 			break;
+		case '+':
+			sceneManager->getParticleSys()->addTestMass(5);
+			break;
+		case '-':
+			sceneManager->getParticleSys()->addTestMass(-5);
+			break;
 
 		default:
 			break;

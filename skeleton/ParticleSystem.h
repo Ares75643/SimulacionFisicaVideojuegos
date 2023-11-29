@@ -82,7 +82,7 @@ public:
 		}
 	}
 	void activateBuoyancy(){
-		BuoyancyForceGenerator* water = new BuoyancyForceGenerator(1, 0.5, 1000);
+		BuoyancyForceGenerator* water = new BuoyancyForceGenerator(6, 0.5, 1000);
 		Particle* p = new Particle(Vector3(0, 10, 0), Vector3(0, 0, 0), Vector3(0, 0, 0), 1);
 		p->setMass(300);
 		p->setShape(p_cube);
@@ -119,6 +119,8 @@ public:
 		particles.push_back(p3);
 		forceGenerators.push_back(water);
 
+		buoyancyTest = p2;
+
 		for (auto fg : forceGenerators) { // Añade las particulas al registro de fuerzas 
 			forceRegistry.addRegistry(fg, p);
 			forceRegistry.addRegistry(fg, p1);
@@ -126,4 +128,18 @@ public:
 			forceRegistry.addRegistry(fg, p3);
 		}
 	}
+
+	private:
+		Particle* buoyancyTest = nullptr;
+
+		public:
+		void addTestMass(int M) { 
+			if (buoyancyTest != nullptr) {
+				if (buoyancyTest->getMass() + M > 0) {
+					buoyancyTest->setMass(buoyancyTest->getMass() + M);
+					cout << buoyancyTest->getMass() << endl;
+				}
+			}
+		}
+
 };

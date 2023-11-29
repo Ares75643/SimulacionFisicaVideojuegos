@@ -23,20 +23,17 @@ void BuoyancyForceGenerator::updateForce(Particle* particle, double t) {
 
 		Vector3 BuoyancyForce(0, 0, 0);
 		float inmersed = 0;
-
-		if (h - h0 > height * 0.5) {
+		if (h - h0 > height * 0.5f) {
 			inmersed = 0;
 		}
-		else if (h0 - h > height * 0.5) {
+		else if (h0 - h > height * 0.5f) {
 			inmersed = 1;
 		}
 		else {
-			inmersed = (h0 - h) / height + 0.5;
+			inmersed = (h0 - h) / height + 0.5f;
 		}
 
 		BuoyancyForce.y = liquidDensity * volume * inmersed * gravity;
-
-		if (BuoyancyForce.y != 0) cout << BuoyancyForce.y << endl;
 
 		particle->addForce(BuoyancyForce);
 	}

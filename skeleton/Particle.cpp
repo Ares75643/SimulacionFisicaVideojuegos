@@ -25,7 +25,7 @@ void Particle::init() {
 	else if(shape == p_cube)
 		renderItem = new RenderItem(CreateShape(physx::PxBoxGeometry(size, size, size)), &pose, color);
 	else if (shape == p_plane)
-		renderItem = new RenderItem(CreateShape(physx::PxBoxGeometry(size, 2, size)), &pose, color);
+		renderItem = new RenderItem(CreateShape(physx::PxBoxGeometry(size, 6, size)), &pose, color);
 }
 
 Particle::~Particle() {
