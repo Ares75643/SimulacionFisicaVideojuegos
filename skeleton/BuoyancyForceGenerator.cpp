@@ -22,12 +22,12 @@ void BuoyancyForceGenerator::updateForce(Particle* particle, double t) {
 		const float h0 = liquidParticle->getPos().y;
 
 		Vector3 BuoyancyForce(0, 0, 0);
-		float inmersed = 0;
+		float inmersed = 0.0f;
 		if (h - h0 > height * 0.5f) {
-			inmersed = 0;
+			inmersed = 0.0f;
 		}
 		else if (h0 - h > height * 0.5f) {
-			inmersed = 1;
+			inmersed = 1.0f;
 		}
 		else {
 			inmersed = (h0 - h) / height + 0.5f;

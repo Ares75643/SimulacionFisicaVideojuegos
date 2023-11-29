@@ -83,29 +83,30 @@ public:
 	}
 	void activateBuoyancy(){
 		BuoyancyForceGenerator* water = new BuoyancyForceGenerator(6, 0.5, 1000);
-		Particle* p = new Particle(Vector3(0, 10, 0), Vector3(0, 0, 0), Vector3(0, 0, 0), 1);
+		Particle* p = new Particle(Vector3(0, 20, 0), Vector3(0, 0, 0), Vector3(0, 0, 0), 1);
 		p->setMass(300);
 		p->setShape(p_cube);
 		p->setLifeTime(1000);
 		p->setColor(Vector4(1, 0, 0, 1));
 		p->init();
 
-		Particle* p1 = new Particle(Vector3(10, 10, 0), Vector3(0, 0, 0), Vector3(0, 0, 0), 1);
+		Particle* p1 = new Particle(Vector3(10, 20, 0), Vector3(0, 0, 0), Vector3(0, 0, 0), 1);
 		p1->setMass(30000);
 		p1->setShape(p_cube);
 		p1->setLifeTime(1000);
 		p1->setColor(Vector4(1, 1, 0, 1));
 		p1->init();
 
-		Particle* p2 = new Particle(Vector3(20, 10, 0), Vector3(0, 0, 0), Vector3(0, 0, 0), 1);
-		p2->setMass(2);
+		Particle* p2 = new Particle(Vector3(20, 20, 0), Vector3(0, 0, 0), Vector3(0, 0, 0), 1);
+		p2->setMass(20);
 		p2->setShape(p_cube);
 		p2->setLifeTime(1000);
 		p2->setColor(Vector4(0, 1, 0, 1));
 		p2->init();
 
-		Particle* p3 = new Particle(Vector3(30, 0, 0), Vector3(0, 0, 0), Vector3(0, 0, 0), 1);
-		p3->setMass(26);
+		Particle* p3 = new Particle(Vector3(30, 10, 0), Vector3(0, 0, 0), Vector3(0, 0, 0), 1);
+		p3->setMass(120);
+		p3->setSize(4);
 		p3->setShape(p_cube);
 		p3->setLifeTime(1000);
 		p3->setColor(Vector4(0, 1, 1, 1));
