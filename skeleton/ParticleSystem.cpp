@@ -125,10 +125,10 @@ void ParticleSystem::createProyectile(ProyectilType T) {
 
 		switch (T) {
 		case bullet: {
-			p->setMass(2.0f);
 			p->setSpeed(60.0f);
 			p->setDamping(0.99f);
-			p->setLifeTime(5);
+			p->setLifeTime(20);
+			p->setMass(30);
 			p->setSize(2);
 			p->setColor(Vector4(0, 0, 1, 1));
 			break;
@@ -137,7 +137,7 @@ void ParticleSystem::createProyectile(ProyectilType T) {
 			p->setMass(200.0f);
 			p->setSpeed(80.0f);
 			p->setDamping(0.99f);
-			p->setLifeTime(5);
+			p->setLifeTime(20);
 			p->setSize(5);
 			p->setColor(Vector4(1, 0, 0, 1));
 			break;

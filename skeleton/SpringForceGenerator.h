@@ -13,6 +13,7 @@ public:
 	void updateForce(Particle* particle, double t);
 
 	Particle* getOther() { return other; }
+	double getK() { return k; }
 
 	inline void setK(double K) { k = K; }
 	inline void addK(double K) { k += K; }
