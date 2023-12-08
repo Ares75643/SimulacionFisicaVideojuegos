@@ -12,4 +12,5 @@ protected:
 public:
 	ExplosionForceGenerator(Vector3 Origin, float K = 5000, float Radius = 50, float Time = 0.1);
 	virtual void updateForce(Particle* particle, double t);
+	virtual void updateForce(RigidBody* rb, double t);
 };

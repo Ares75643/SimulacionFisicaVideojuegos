@@ -5,7 +5,7 @@ ParticleForceRegistry::ParticleForceRegistry() {
 }
 
 ParticleForceRegistry::~ParticleForceRegistry() {
-
+	clear();
 }
 
 void ParticleForceRegistry::clear() {

@@ -19,3 +19,16 @@ void ExplosionForceGenerator::updateForce(Particle* particle, double t){
 		particle->addForce(explosionForce);
 	}
 }
+
+void ExplosionForceGenerator::updateForce(RigidBody* rb, double t) {
+	if (fabs(rb->getInvMass()) < 1e-10) return; // Comprueba si la particula tiene masa
+
+	float distance = (rb->getPosition() - origin).magnitude(); // Distancia del radio a la partícula
+	if (distance < r) { // Comprueba si está dentro del radio de explosión
+		float intensity = k / (r * r); // Intensidad
+		float T = exp(-t / time); // Exp
+
+		Vector3 explosionForce = intensity * (rb->getPosition() - origin) * T;
+		rb->addForce(explosionForce);
+	}
+}

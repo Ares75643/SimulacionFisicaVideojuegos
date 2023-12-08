@@ -4,6 +4,7 @@
 #include <list>
 #include "RigidBody.h"
 #include "RigidBodyGenerator.h"
+#include "RigidBodyForceRegistry.h"
 
 using namespace std;
 
@@ -16,13 +17,17 @@ protected:
 
 	int numRB;
 	list<RigidBody*> rbs;
+	list<RigidBody*> rbsToDelete;
 	vector<RigidBodyGenerator*> rbGenerators;
 
+	RigidBodyForceRegistry forceRegistry;
+	list<ForceGenerator*> forceGenerators;
 
 public:
 	RBSystem(PxScene* Scene, PxPhysics* Physics);
 	void update(double t);
+	void deleteUnusedRB();
 	void addRBS(list<RigidBody*> lrb);
 };
 
-// SISTEMA, GENERADOR, SR generaos a DISTINTAS VELOCIDADES con distintas masas, aplicar alguna fuerxa a sr
+// SISTEMA, GENERADOR, SR generados a DISTINTAS VELOCIDADES con distintas masas, aplicar alguna fuerxa a sr

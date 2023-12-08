@@ -51,11 +51,20 @@
     <ClCompile Include="StaticSpringForceGenerator.cpp">
       <Filter>ForceGenerators</Filter>
     </ClCompile>
-    <ClCompile Include="RBSystem.cpp" />
-    <ClCompile Include="RigidBody.cpp" />
-    <ClCompile Include="RigidBodyGenerator.cpp" />
     <ClCompile Include="BuoyancyForceGenerator.cpp">
       <Filter>ForceGenerators</Filter>
+    </ClCompile>
+    <ClCompile Include="RigidBodyForceRegistry.cpp">
+      <Filter>RigidBodies</Filter>
+    </ClCompile>
+    <ClCompile Include="RigidBodyGenerator.cpp">
+      <Filter>RigidBodies</Filter>
+    </ClCompile>
+    <ClCompile Include="RigidBody.cpp">
+      <Filter>RigidBodies</Filter>
+    </ClCompile>
+    <ClCompile Include="RBSystem.cpp">
+      <Filter>RigidBodies</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -109,11 +118,20 @@
     <ClInclude Include="StaticSpringForceGenerator.h">
       <Filter>ForceGenerators</Filter>
     </ClInclude>
-    <ClInclude Include="RBSystem.h" />
-    <ClInclude Include="RigidBody.h" />
-    <ClInclude Include="RigidBodyGenerator.h" />
     <ClInclude Include="BuoyancyForceGenerator.h">
       <Filter>ForceGenerators</Filter>
+    </ClInclude>
+    <ClInclude Include="RigidBodyGenerator.h">
+      <Filter>RigidBodies</Filter>
+    </ClInclude>
+    <ClInclude Include="RigidBodyForceRegistry.h">
+      <Filter>RigidBodies</Filter>
+    </ClInclude>
+    <ClInclude Include="RigidBody.h">
+      <Filter>RigidBodies</Filter>
+    </ClInclude>
+    <ClInclude Include="RBSystem.h">
+      <Filter>RigidBodies</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -128,6 +146,9 @@
     </Filter>
     <Filter Include="Objects">
       <UniqueIdentifier>{3a6ad37e-3ec1-4b0b-bcda-40cedd17a598}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="RigidBodies">
+      <UniqueIdentifier>{45510c2e-926e-4fcc-88b6-af06439fe086}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

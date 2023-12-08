@@ -9,6 +9,7 @@ public:
 	~GravityForceGenerator() {};
 
 	virtual void updateForce(Particle* particle, double t);
+	virtual void updateForce(RigidBody* rb, double t);
 
 	inline void setGravity(const Vector3& G) {gravity = G;}
 	inline Vector3 getGravity() { return gravity; }

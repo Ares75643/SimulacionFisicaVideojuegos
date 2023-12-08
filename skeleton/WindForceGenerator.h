@@ -9,6 +9,7 @@ public:
     WindForceGenerator(){}
     WindForceGenerator(const Vector3& W, const float K1 = 0.25, const float K2 = 0);
     virtual void updateForce(Particle* particle, double t);
+    virtual void updateForce(RigidBody* rb, double t);
 
     float getK1() { return k1; }
     float getK2() { return k2; }
