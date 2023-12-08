@@ -68,9 +68,9 @@ void initPhysics(bool interactive) {
 
 	//ELEMENTOS NO TERMINADO
 	
-	RigidBody* r = new RigidBody(gScene, gPhysics, Vector3(0, 10, 0), Vector3(-10, 0, 0), Vector3(0, 0, 2), 3, 30, & PxBoxGeometry(1, 2, 1), Vector4(1, 1, 0, 1));
+	//RigidBody* r = new RigidBody(gScene, gPhysics, Vector3(0, 10, 0), Vector3(-10, 0, 0), Vector3(0, 0, 2), 3, 30, & PxBoxGeometry(1, 2, 1), Vector4(1, 1, 0, 1));
 	
-	sceneManager = new SceneManager();
+	sceneManager = new SceneManager(gScene, gPhysics);
 }
 
 // Function to configure what happens in each step of physics

@@ -4,10 +4,11 @@
 #include "PxRigidBody.h"
 #include "PxShape.h"
 #include <PxPhysicsAPI.h>
-
-class main;
+#include <PxPhysics.h>
 
 using namespace physx;
+
+enum Shape{s_cube, s_sphere, s_rect, s_capsule};
 
 class RigidBody {
 protected:
@@ -16,6 +17,7 @@ protected:
 	PxShape* shape;
 	RenderItem* render;
 
+	Shape shapeType;
 	float lifeTime; // s
 	bool alive;
 
@@ -23,7 +25,7 @@ public:
 	RigidBody(PxScene* scene, PxPhysics* physics,
 		const Vector3& Position, const Vector3& Velocity = Vector3(0, 0, 0), const Vector3& Inertia = Vector3(0, 0, 0),
 		double Mass = 1, double LifeTime = 30,
-		physx::PxGeometry* Geometry = new PxBoxGeometry(1, 1, 1), Vector4 Color = Vector4(0, 0, 0, 1)) {
+		Shape Shape = s_cube, Vector4 Color = Vector4(0, 0, 0, 1)) {
 
 		transform = physx::PxTransform(Position.x, Position.y, Position.z);
 		solid = physics->createRigidDynamic(transform);
@@ -37,8 +39,24 @@ public:
 
 		lifeTime = LifeTime;
 		alive = true;
+		shapeType = Shape;
+		
+		switch (shapeType)
+		{
+		case s_capsule:
+			shape = CreateShape(PxCapsuleGeometry(1, 1));
+			break;
+		case s_sphere:
+			shape = CreateShape(PxSphereGeometry(1));
+			break;
+		case s_cube:
+			shape = CreateShape(PxBoxGeometry(1, 1, 1));
+			break;
+		case s_rect:
+			shape = CreateShape(PxBoxGeometry(1, 2, 1));
+			break;
+		}
 
-		shape = CreateShape(*Geometry);
 		solid->attachShape(*shape);
 
 		PxRigidBodyExt::updateMassAndInertia(*solid, 0.15);
@@ -56,15 +74,14 @@ public:
 	};
 
 	PxRigidDynamic* getRigidDynamic() { return solid; }
-	Vector3 getPosition() { solid->getGlobalPose(); }
+	Vector3 getPosition() { return solid->getGlobalPose().p; }
 	Vector3 getLinearVelocity() { return solid->getLinearVelocity(); }
 	float getMass() { return solid->getMass(); }
 	float getInvMass() { return solid->getInvMass(); }
-	double getTime() { return lifeTime; }
+	double getLifeTime() { return lifeTime; }
 	bool isAlive() { return alive; }
-	
-	
-	
+	Vector4 getColor() { return render->color; }
+	Shape getShape() { return shapeType; }
 
 	void setPosition(Vector3 Pos) {
 		transform = PxTransform(Pos);
