@@ -6,7 +6,7 @@ SceneManager::SceneManager(PxScene* Scene, PxPhysics* Physics) {
 	physics = Physics;
 
 	particleSys = new ParticleSystem(this);
-	rbSys = new RBSystem(scene, physics);
+	rbSys = new RBSystem(this);
 }
 
 SceneManager::~SceneManager() {

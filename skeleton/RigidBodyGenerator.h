@@ -14,7 +14,7 @@ private:
 	int nGen;
 	Vector3 pos, vel;
 	RigidBody* model;
-	float var = 1, median = 0;
+	float var = 2, median = 0;
 
 	float frecuency;
 	float timeUntilNextGeneration;

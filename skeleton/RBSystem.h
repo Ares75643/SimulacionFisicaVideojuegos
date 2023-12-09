@@ -5,15 +5,19 @@
 #include "RigidBody.h"
 #include "RigidBodyGenerator.h"
 #include "RigidBodyForceRegistry.h"
+class SceneManager;
 
 using namespace std;
 
 const int MAXRBS = 1000;
 
+enum GeneratorType {g_sphere, g_capsule, g_cube};
+
 class RBSystem {
 protected:
 	PxScene* scene;
 	PxPhysics* physics;
+	SceneManager* sMngr;
 
 	int numRB;
 	list<RigidBody*> rbs;
@@ -24,10 +28,13 @@ protected:
 	list<ForceGenerator*> forceGenerators;
 
 public:
-	RBSystem(PxScene* Scene, PxPhysics* Physics);
+	RBSystem(SceneManager* SM);
 	void update(double t);
 	void deleteUnusedRB();
 	void addRBS(list<RigidBody*> lrb);
+
+	void createGenerators(GeneratorType T);
+	void shootRB();
 };
 
-// SISTEMA, GENERADOR, SR generados a DISTINTAS VELOCIDADES con distintas masas, aplicar alguna fuerxa a sr
+// aplicar alguna fuerxa a sr

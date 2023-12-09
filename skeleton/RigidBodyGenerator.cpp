@@ -18,25 +18,20 @@ void RigidBodyGenerator::update(float t) {
 
 list<RigidBody*> RigidBodyGenerator::generateBodies(){
 	list<RigidBody*> listRB;
-
 	if (model != nullptr) {
 		if (active && timeUntilNextGeneration <= 0) { // Si debe generar (tiempo y activo)
 			for (int i = 0; i < nGen; i++) {
 				normal_distribution<float> d(median, var); // Se contruye aqui para poder cambiar los parametros
 
-				Vector3 posicion = Vector3(d(generatorRB) + pos.x, d(generatorRB) + pos.y, d(generatorRB) + pos.z);
-				Vector3 velocidad = Vector3(d(generatorRB) + vel.x, d(generatorRB) * + vel.y, d(generatorRB)  + vel.z);
+				Vector3 posicion = pos + Vector3(d(generatorRB), d(generatorRB), d(generatorRB));
+				Vector3 velocidad = vel + Vector3(d(generatorRB), d(generatorRB), d(generatorRB));
 
 				RigidBody* rb = new RigidBody(scene, physics, posicion, velocidad, Vector3(0, 0, 0), model->getMass(), model->getLifeTime(), model->getShape(), model->getColor());
-
-				rb->setLinearVelocity(vel);
-				rb->setPosition(pos);
 
 				listRB.push_back(rb);
 			}
 			timeUntilNextGeneration = frecuency; // Actualiza el tiempo hasta la generación
 		}
 	}
-
 	return listRB;
 }

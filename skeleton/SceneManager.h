@@ -23,5 +23,9 @@ public:
 	void update(double t);
 
 	Camera* getCamera() { return camera; }
+	PxScene* getScene() { return scene; }
+	PxPhysics* getPhysics() { return physics; }
+
 	ParticleSystem* getParticleSys() { return particleSys; }
+	RBSystem* getRBSys() { return rbSys; }
 };

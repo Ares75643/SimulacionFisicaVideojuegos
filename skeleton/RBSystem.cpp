@@ -1,15 +1,14 @@
 #include "RBSystem.h"
+#include "SceneManager.h"
 
-RBSystem::RBSystem(PxScene* Scene, PxPhysics* Physics) {
-	scene = Scene;
-	physics = Physics;
+RBSystem::RBSystem(SceneManager* SM) {
+	sMngr = SM;
+	scene = sMngr->getScene();
+	physics = sMngr->getPhysics();
 
 	numRB = 0;
 
 	forceRegistry = RigidBodyForceRegistry();
-
-	RigidBody* model = new RigidBody(scene, physics, Vector3(0, 10, 0), Vector3(-10, 0, 0), Vector3(0, 0, 0), 3, 10, s_cube, Vector4(1, 1, 0, 1));
-	rbGenerators.push_back(new RigidBodyGenerator(scene, physics, model, Vector3(0, 20 ,0), Vector3(0, 0, 0), 1, 0.7));
 }
 
 void RBSystem::update(double t) {
@@ -51,4 +50,33 @@ void RBSystem::addRBS(list<RigidBody*> lrb) {
 			delete r;
 		}
 	}
+}
+
+void RBSystem::createGenerators(GeneratorType T) {
+	Vector3 pos = sMngr->getCamera()->getEye() + sMngr->getCamera()->getDir() * 50;
+	Vector3 perpendicular = Vector3(0, 1, 0).cross(sMngr->getCamera()->getDir());
+	switch (T) {
+	case g_sphere: {
+		RigidBody* model = new RigidBody(scene, physics, Vector3(0, -500, 0), Vector3(-10, 0, 0), Vector3(0, 0, 0), 1, 20, s_sphere, Vector4(1, 0, 1, 1));
+		rbGenerators.push_back(new RigidBodyGenerator(scene, physics, model, pos, perpendicular * 20, 1, 0.7));
+		break;
+	}
+	case g_cube: {
+		RigidBody* model = new RigidBody(scene, physics, Vector3(0, -500, 0), Vector3(-10, 0, 0), Vector3(0, 0, 0), 10, 20, s_cube, Vector4(1, 1, 0, 1));
+		rbGenerators.push_back(new RigidBodyGenerator(scene, physics, model, pos, Vector3(0, 0, 0), 1, 0.7));
+		break;
+	}
+	case g_capsule: {
+		RigidBody* model = new RigidBody(scene, physics, Vector3(0, -500, 0), Vector3(-10, 0, 0), Vector3(0, 0, 0), 3, 20, s_capsule, Vector4(0, 1, 0, 1));
+		rbGenerators.push_back(new RigidBodyGenerator(scene, physics, model, pos, Vector3(0, 0, 0), 1, 0.7));
+		break;
+	}
+	}
+}
+
+void RBSystem::shootRB() {
+	Vector3 pos = sMngr->getCamera()->getEye() + sMngr->getCamera()->getDir();
+	Vector3 dir = sMngr->getCamera()->getDir() * 30;
+
+	RigidBody* model = new RigidBody(scene, physics, pos, dir, Vector3(0, 0, 0), 1, 20, s_sphere, Vector4(1, 0, 0, 1));
 }

@@ -171,6 +171,18 @@ void keyPress(unsigned char key, const PxTransform& camera) {
 		case '-':
 			sceneManager->getParticleSys()->addTestMass(-5);
 			break;
+		case 'M':
+			sceneManager->getRBSys()->createGenerators(g_cube);
+			break;
+		case 'N':
+			sceneManager->getRBSys()->createGenerators(g_sphere);
+			break;
+		case 'B':
+			sceneManager->getRBSys()->createGenerators(g_capsule);
+			break;
+		case 'V':
+			sceneManager->getRBSys()->shootRB();
+			break;
 
 		default:
 			break;
