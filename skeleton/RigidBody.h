@@ -70,7 +70,7 @@ public:
 
 	void integrate(float t) {
 		lifeTime -= t;
-		if (lifeTime <= 0 || transform.p.y < -500) setAlive(false);
+		if (lifeTime <= 0 || transform.p.y <= -500) setAlive(false);
 	};
 
 	PxRigidDynamic* getRigidDynamic() { return solid; }

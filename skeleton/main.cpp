@@ -134,15 +134,19 @@ void keyPress(unsigned char key, const PxTransform& camera) {
 			break;
 		case '1':
 			sceneManager->getParticleSys()->addGravity();
+			sceneManager->getRBSys()->addGravity();
 			break;
 		case '2':
 			sceneManager->getParticleSys()->addWind();
+			sceneManager->getRBSys()->addWind();
 			break;
 		case '3':
 			sceneManager->getParticleSys()->addTornado();
+			sceneManager->getRBSys()->addTornado();
 			break;
 		case '4':
 			sceneManager->getParticleSys()->addExplosion();
+			sceneManager->getRBSys()->addExplosion();
 			break;
 		case '5':
 			sceneManager->getParticleSys()->addSpring(S_DEFAULT);
