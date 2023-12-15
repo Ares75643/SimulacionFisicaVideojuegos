@@ -61,5 +61,3 @@ public:
 			forceRegistry.addRegistry(megumin, rb);
 	}
 };
-
-// aplicar alguna fuerxa a sr

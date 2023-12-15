@@ -33,10 +33,8 @@
 
 #include "foundation/PxTransform.h"
 
-namespace Snippets
-{
-class Camera
-{
+namespace Snippets {
+class Camera {
 public:
 	Camera(const physx::PxVec3 &eye, const physx::PxVec3& dir);
 
@@ -47,15 +45,17 @@ public:
 
 	physx::PxVec3		getEye()	const;
 	physx::PxVec3		getDir()	const;
+	void setEye(physx::PxVec3& P);
+	void setDir(physx::PxVec3& D);
 	physx::PxTransform	getTransform() const;
+
+
 private:
 	physx::PxVec3	mEye;
 	physx::PxVec3	mDir;
 	int				mMouseX;
 	int				mMouseY;
 };
-
-
 }
 
 

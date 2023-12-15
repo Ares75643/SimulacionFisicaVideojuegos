@@ -28,4 +28,6 @@ public:
 
 	ParticleSystem* getParticleSys() { return particleSys; }
 	RBSystem* getRBSys() { return rbSys; }
+
+	void StartGame();
 };

@@ -77,7 +77,7 @@ public:
 		for (auto FG : forceRegistry.getRegistry()) {
 			SpringForceGenerator* SF = static_cast<SpringForceGenerator*>(FG.first);
 			if (SF != nullptr) {
-				SF->addK(50);
+				SF->addK(5);
 			}
 		}
 	}
@@ -85,7 +85,7 @@ public:
 		for (auto FG : forceRegistry.getRegistry()) {
 			SpringForceGenerator* SF = static_cast<SpringForceGenerator*>(FG.first);
 			if (SF != nullptr) {
-				if (SF->getK() -10 > 0) SF->addK(-10);
+				if (SF->getK() -10 > 0) SF->addK(-5);
 			}
 		}
 	}

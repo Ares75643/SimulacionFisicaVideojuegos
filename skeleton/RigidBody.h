@@ -23,7 +23,7 @@ protected:
 
 public:
 	RigidBody(PxScene* scene, PxPhysics* physics,
-		const Vector3& Position, const Vector3& Velocity = Vector3(0, 0, 0), const Vector3& Inertia = Vector3(0, 0, 0),
+		const Vector3& Position, const Vector3& Velocity = Vector3(0, 0, 0), const Vector3& Inertia = Vector3(1, 1, 1),
 		double Mass = 1, double LifeTime = 30,
 		Shape Shape = s_cube, Vector4 Color = Vector4(0, 0, 0, 1)) {
 

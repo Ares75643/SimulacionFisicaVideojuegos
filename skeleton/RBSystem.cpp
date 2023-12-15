@@ -79,4 +79,10 @@ void RBSystem::shootRB() {
 	Vector3 dir = sMngr->getCamera()->getDir() * 30;
 
 	RigidBody* model = new RigidBody(scene, physics, pos, dir, Vector3(0, 0, 0), 1, 20, s_sphere, Vector4(1, 0, 0, 1));
+
+	for (auto fg : forceGenerators) // Añade las particulas al registro de fuerzas 
+		forceRegistry.addRegistry(fg, model);
+	rbs.push_back(model);
+
+	numRB++;
 }

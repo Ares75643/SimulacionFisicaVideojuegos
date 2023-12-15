@@ -59,6 +59,7 @@ void initPhysics(bool interactive) {
 	sceneDesc.simulationEventCallback = &gContactReportCallback;
 	gScene = gPhysics->createScene(sceneDesc);
 
+	
 	//SUELO
 	PxRigidStatic* suelo = gPhysics->createRigidStatic(PxTransform{ 0,0,0 });
 	PxShape* shape = CreateShape(PxBoxGeometry(100, 0.1, 100));
@@ -66,8 +67,6 @@ void initPhysics(bool interactive) {
 	gScene->addActor(*suelo);
 	RenderItem* item = new RenderItem(shape, suelo, { 0.8,0.8,0.8,1 });
 
-	//ELEMENTOS NO TERMINADO
-	
 	//RigidBody* r = new RigidBody(gScene, gPhysics, Vector3(0, 10, 0), Vector3(-10, 0, 0), Vector3(0, 0, 2), 3, 30, & PxBoxGeometry(1, 2, 1), Vector4(1, 1, 0, 1));
 	
 	sceneManager = new SceneManager(gScene, gPhysics);
@@ -187,6 +186,7 @@ void keyPress(unsigned char key, const PxTransform& camera) {
 		case 'V':
 			sceneManager->getRBSys()->shootRB();
 			break;
+		
 
 		default:
 			break;

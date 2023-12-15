@@ -17,3 +17,8 @@ void SceneManager::update(double t) {
 	particleSys->update(t);
 	rbSys->update(t);
 }
+
+void SceneManager::StartGame() {
+	camera->setEye(Vector3(0, 1.5, 0));
+	camera->setDir(Vector3(0, 0, -1));
+}
