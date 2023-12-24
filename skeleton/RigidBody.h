@@ -8,7 +8,7 @@
 
 using namespace physx;
 
-enum Shape{s_cube, s_sphere, s_rect, s_capsule};
+enum Shape{s_cube, s_sphere, s_rect, s_capsule, s_minisphere};
 
 class RigidBody {
 protected:
@@ -57,6 +57,9 @@ public:
 			break;
 		case s_rect:
 			shape = CreateShape(PxBoxGeometry(0.5, 1, 0.5));
+			break;
+		case s_minisphere:
+			shape = CreateShape(PxSphereGeometry(0.2));
 			break;
 		}
 

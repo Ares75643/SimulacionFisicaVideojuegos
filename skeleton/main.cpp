@@ -146,29 +146,21 @@ void keyPress(unsigned char key, const PxTransform& camera) {
 
 		// Habilities 
 		case '1': // H1 Viento que aleja todos los obstaculos (no elimina ninguno pero sirve para recolocar o ganar tiempo)
-			sceneManager->getRBSys()->activateWind();
-			break;
-		case '2':
-			sceneManager->getParticleSys()->addWind();
-			sceneManager->getRBSys()->addWind();
-			break;
-		case '3':
-			sceneManager->getParticleSys()->addTornado();
-			sceneManager->getRBSys()->addTornado();
-			break;
-		case '4':
-			sceneManager->getParticleSys()->addExplosion();
-			sceneManager->getRBSys()->addExplosion();
+			sceneManager->activateEvent(_wind);
 			break;
 
+		// Disparos
 		case 'Z':
-			sceneManager->getRBSys()->shootRB(b_normal);
+			sceneManager->activateEvent(_nShot);
 			break;
 		case 'X':
-			sceneManager->getRBSys()->shootRB(b_sgravity);
+			sceneManager->activateEvent(_ugShot);
 			break;
 		case 'C':
-			sceneManager->getRBSys()->shootRB(b_ugravity);
+			sceneManager->activateEvent(_sgShot);
+			break;
+		case 'V':
+			sceneManager->activateEvent(_fShot);
 			break;
 
 		default: // Si se ha muerto pulsar cualquier tecla (que no tenga otro uso) reinicia el juego
@@ -184,7 +176,7 @@ void onCollision(physx::PxActor* actor1, physx::PxActor* actor2) {
 	PX_UNUSED(actor2);
 
 	// Gestion de colision con balas
-	if (actor1->getName() == "bulletN" && actor2->getName() == "obstacle") {
+	if (actor1->getName() == "bulletN") {
 		sceneManager->getRBSys()->destroyRigidBody(actor1);
 	}
 	else if (actor1->getName() == "bulletUG" && actor2->getName() == "obstacle") {
@@ -193,6 +185,12 @@ void onCollision(physx::PxActor* actor1, physx::PxActor* actor2) {
 	}
 	else if (actor1->getName() == "bulletSG" && actor2->getName() == "obstacle") {
 		sceneManager->getRBSys()->superGravity(actor2);
+		sceneManager->getRBSys()->destroyRigidBody(actor1);
+	}
+	else if (actor1->getName() == "bulletF") {
+		if (actor2->getName() == "obstacle") 
+			sceneManager->getRBSys()->freeze(actor2);
+
 		sceneManager->getRBSys()->destroyRigidBody(actor1);
 	}
 

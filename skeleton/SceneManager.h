@@ -8,6 +8,14 @@
 
 using namespace std;
 
+const int NEVENTS = 5;
+enum EventType { _nShot, _ugShot, _sgShot, _fShot, _wind };
+
+typedef struct {
+	double timeUntilActivation;
+	double delayTime;
+}Event;
+
 class SceneManager{
 private:
 	Camera* camera;
@@ -24,6 +32,14 @@ private:
 
 	const double TIMEBETWEENPHASES = 5; // Segundos entre fases (TREINTA ESTÁ BIEN)
 	int phase;
+
+	Event events[NEVENTS] = {
+		{0, 0.5},
+		{0, 2},
+		{0, 2},
+		{5, 8},
+		{5, 10}
+	};
 
 public:
 	SceneManager(PxScene* Scene, PxPhysics* Physics);
@@ -42,4 +58,7 @@ public:
 	void StartGame();
 	void Damage();
 	void EndGame();
+
+	bool isEventAvaliable(EventType e) { return events[e].timeUntilActivation <= 0; }
+	void activateEvent(EventType e);
 };

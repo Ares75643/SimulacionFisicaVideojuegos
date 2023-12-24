@@ -26,7 +26,11 @@ void SceneManager::update(double t) {
 		}
 	}
 
+	for (int i = 0; i < NEVENTS; ++i)
+		events[i].timeUntilActivation -= t;
+
 	cout << "LifeTime: " << timeAlive << " Phase: " << phase << " Lifes: " << lifes << endl;
+	//cout << "NBullet: " << events[_nShot].timeUntilActivation << " UGBullet: " << events[_ugShot].timeUntilActivation << " SGBullet: " << events[_sgShot].timeUntilActivation << endl;
 }
 
 void SceneManager::StartGame() {
@@ -47,8 +51,7 @@ void SceneManager::StartGame() {
 }
 
 void SceneManager::Damage() {
-	--lifes;
-	if (lifes <= 0) {
+	if (--lifes <= 0) {
 		EndGame();
 	}
 	else {
@@ -67,4 +70,27 @@ void SceneManager::EndGame() {
 	// Clear Scene
 	rbSys->clear();
 	particleSys->clear();
+}
+
+void SceneManager::activateEvent(EventType e) {
+	if (isEventAvaliable(e)) {
+		switch (e) {
+		case _wind:
+			rbSys->activateWind();
+			break;
+		case _nShot:
+			rbSys->shootRB(b_normal);
+			break;
+		case _sgShot:
+			rbSys->shootRB(b_sgravity);
+			break;
+		case _ugShot:
+			rbSys->shootRB(b_ugravity);
+			break;
+		case _fShot:
+			rbSys->shootRB(b_freeze);
+			break;
+		}
+		events[e].timeUntilActivation = events[e].delayTime;
+	}
 }

@@ -100,25 +100,33 @@ void RBSystem::shootRB(BulletType T) {
 	Vector3 pos = sMngr->getCamera()->getEye() + sMngr->getCamera()->getDir();
 	Vector3 dir = sMngr->getCamera()->getDir() * 30;
 
-	RigidBody* model = new RigidBody(scene, physics, pos, dir, Vector3(0, 0, 0), 1, 20, s_sphere);
+	RigidBody* model;
 	
 	if (T == b_normal) {
+		model = new RigidBody(scene, physics, pos, dir, Vector3(0, 0, 0), 1, 20, s_sphere);
 		model->setName("bulletN");
 		model->setColor(Vector4(1, 1, 0, 0));
 	}
 	else if (T == b_sgravity) {
+		model = new RigidBody(scene, physics, pos, dir, Vector3(0, 0, 0), 1, 20, s_minisphere);
 		model->setName("bulletSG");
 		model->setColor(Vector4(0, 0, 0.5, 0));
 	}
 	else if (T == b_ugravity) {
+		model = new RigidBody(scene, physics, pos, dir, Vector3(0, 0, 0), 1, 20, s_minisphere);
 		model->setName("bulletUG");
 		model->setColor(Vector4(0.4, 0, 0.4, 0));
+	}
+	else if (T == b_freeze) {
+		model = new RigidBody(scene, physics, pos, dir, Vector3(0, 0, 0), 1, 20, s_minisphere);
+		model->setName("bulletF");
+		model->setColor(Vector4(0, 0, 0, 0));
 	}
 
 	for (auto fg : forceGenerators) // Añade las particulas al registro de fuerzas 
 		forceRegistry.addRegistry(fg, model);
-	rbs.push_back(model);
 
+	rbs.push_back(model);
 	numRB++;
 }
 
@@ -138,4 +146,13 @@ void RBSystem::inverseGravity(PxActor* obj) {
 	GravityForceGenerator* g = new GravityForceGenerator(Vector3(0, 30, 0));
 	RigidBody* r = getRigidBody(obj);
 	if(r != nullptr) forceRegistry.addRegistry(g, r);
+}
+
+void RBSystem::freeze(PxActor* obj) {
+	RigidBody* r = getRigidBody(obj);
+	if (r != nullptr) {
+		r->getRigidDynamic()->setRigidBodyFlag(PxRigidBodyFlag::eKINEMATIC, true);
+		r->getRigidDynamic()->setLinearVelocity(PxVec3(0.0f, 0.0f, 0.0f));
+		r->getRigidDynamic()->setAngularVelocity(PxVec3(0.0f, 0.0f, 0.0f));
+	}
 }

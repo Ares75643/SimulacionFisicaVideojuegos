@@ -15,7 +15,7 @@ using namespace std;
 
 const int MAXRBS = 1000;
 
-enum BulletType { b_normal, b_sgravity, b_ugravity};
+enum BulletType { b_normal, b_sgravity, b_ugravity, b_freeze};
 enum GeneratorType {g_sphere, g_capsule, g_cube};
 
 class RBSystem {
@@ -48,6 +48,8 @@ public:
 
 	void superGravity(PxActor* obj);
 	void inverseGravity(PxActor* obj);
+
+	void freeze(PxActor* obj);
 
 	void addGravity() {
 		GravityForceGenerator* g = new GravityForceGenerator(Vector3(0, 20, 0));
