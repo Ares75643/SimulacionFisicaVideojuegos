@@ -32,8 +32,17 @@ void ParticleSystem::clear() {
 }
 
 void ParticleSystem::update(double t) {
-	for (ParticleGenerator* g : particleGenerators) { //Generadores de partículas
-		addParticles(g->generateParticles());
+	for (ParticleGenerator* g : particleGenerators) { // Generadores de partículas
+		if (g->isFireworkGenerator()) { // Fireworks
+			list<Particle*> F = g->generateFireworks(this);
+			for (auto f : F) { // Fuerza hacia arriba
+				forceRegistry.addRegistry(new WindForceGenerator(Vector3(0, 10, 0), 0.25, 0.1), f);
+			}
+			addParticles(F);
+		}
+		else { // Particulas
+			addParticles(g->generateParticles());
+		}
 		g->update(t);
 	}
 
@@ -154,7 +163,7 @@ void ParticleSystem::createProyectile(ProyectilType T) {
 		case firework: {
 			Vector3 Pos = sMngr->getCamera()->getEye() + sMngr->getCamera()->getDir() * 50 - Vector3(0, 20, 0);
 			Vector4 Color = Vector4(0, 255, 0, 255);
-			int t = rand()%4;
+			int t = rand() % 4;
 			p = new Firework(Pos, Vector3(0, 45, 0), Vector3(0, -10, 0), 1, 0.05, 2.5, 0.998, Color, t, this);
 			break;
 		}
@@ -250,4 +259,39 @@ void ParticleSystem::addSpring(SpringTipe T){
 	default:
 		break;
 	}
+}
+
+
+
+
+void ParticleSystem::celebrationFireworks() {
+	Firework* p = new Firework(Vector3(0,0,0), Vector3(0, 45, 0), Vector3(0, -10, 0), 1, 0.05, 2.5, 0.998, Vector4(0,0,0,1), -1, this);
+	p->setLifeTime(3);
+	p->setSize(0.4);
+	p->setColor(Vector4(0, 0.1, 0.7, 1));
+
+	GaussianParticleGenerator* g = new GaussianParticleGenerator("G", Vector3(0, 1, -100), Vector3(0, 10, 0), p, 5, 1000, 0.99, 1);
+	g->setLifeTime(3);
+	g->setFirework(true);
+	particleGenerators.push_back(g);
+}
+
+void ParticleSystem::hurtParticles() {
+	Particle* p = new Particle(Vector3(0, 1, -100), Vector3(0, 10, 0), GRAVITY);
+
+	p->setMass(1);
+	p->setLifeTime(5);
+	p->setSize(0.05);
+	p->setColor(Vector4(1, 0, 0, 2));
+
+	particleGenerators.push_back(new GaussianParticleGenerator("G", Vector3(0, 1, -5), Vector3(0, 0, 0), p, 5, 1000, 0.99, 0.2));
+
+	p = new Particle(Vector3(0, 1, -100), Vector3(0, 10, 0), GRAVITY);
+
+	p->setMass(5);
+	p->setLifeTime(5);
+	p->setSize(0.1);
+	p->setColor(Vector4(0.5, 0, 0, 1));
+
+	particleGenerators.push_back(new GaussianParticleGenerator("G", Vector3(0, 1, -5), Vector3(0, 0, 0), p, 5, 1000, 0.99, 0.2));
 }

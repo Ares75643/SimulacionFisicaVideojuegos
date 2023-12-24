@@ -41,7 +41,7 @@ void Particle::integrate(double t) {
 	
 	// Eliminar partícula
 	lifeTime -= t;
-	if (lifeTime < 0) alive = false;
+	if (lifeTime < 0 || pose.p.y < -2) alive = false;
 
 	clearAcum(); // La fuerza ejercida sobre la particula se calcula cada frame
 

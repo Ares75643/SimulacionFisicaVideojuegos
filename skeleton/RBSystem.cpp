@@ -11,9 +11,25 @@ RBSystem::RBSystem(SceneManager* SM) {
 	forceRegistry = RigidBodyForceRegistry();
 }
 
+RBSystem::~RBSystem() {
+	clear();
+}
+
+void RBSystem::clear() {
+	clearRBS();
+	rbGenerators.clear();
+	forceGenerators.clear();
+	forceRegistry.clear();
+}
+
+void RBSystem::clearRBS() {
+	for (RigidBody* r : rbs)
+		rbsToDelete.push_back(r);
+	deleteUnusedRB();
+}
+
 void RBSystem::update(double t) {
-	//Generar
-	for (RigidBodyGenerator* g : rbGenerators) { //Generadores de partículas
+	for (RigidBodyGenerator* g : rbGenerators) { // Generadores de partículas
 		addRBS(g->generateBodies());
 		g->update(t);
 	}
@@ -53,22 +69,27 @@ void RBSystem::addRBS(list<RigidBody*> lrb) {
 }
 
 void RBSystem::createGenerators(GeneratorType T) {
-	Vector3 pos = sMngr->getCamera()->getEye() + sMngr->getCamera()->getDir() * 50;
-	Vector3 perpendicular = Vector3(0, 1, 0).cross(sMngr->getCamera()->getDir());
+	Vector3 pos = Vector3(0, 2, -98);
 	switch (T) {
 	case g_sphere: {
-		RigidBody* model = new RigidBody(scene, physics, Vector3(0, -500, 0), Vector3(-10, 0, 0), Vector3(0, 0, 0), 1, 20, s_sphere, Vector4(1, 0, 1, 1));
-		rbGenerators.push_back(new RigidBodyGenerator(scene, physics, model, pos, perpendicular * 20, 1, 0.7));
+		RigidBody* model = new RigidBody(scene, physics, Vector3(0, -500, 0), Vector3(-10, 0, 0), Vector3(0, 0, 0), 1, 20, s_sphere, Vector4(0.5, 0, 0.5, 1));
+		RigidBodyGenerator* rb = new RigidBodyGenerator(scene, physics, model, pos, Vector3(0, 0, 0), 1, 3);
+		rb->setVar(1); rb->setMedian(0);
+		rbGenerators.push_back(rb);
 		break;
 	}
 	case g_cube: {
-		RigidBody* model = new RigidBody(scene, physics, Vector3(0, -500, 0), Vector3(-10, 0, 0), Vector3(0, 0, 0), 10, 20, s_cube, Vector4(1, 1, 0, 1));
-		rbGenerators.push_back(new RigidBodyGenerator(scene, physics, model, pos, Vector3(0, 0, 0), 1, 0.7));
+		RigidBody* model = new RigidBody(scene, physics, Vector3(0, -500, 0), Vector3(-10, 0, 0), Vector3(0, 0, 0), 10, 20, s_cube, Vector4(0, 0.5, 0, 1));
+		RigidBodyGenerator* rb = new RigidBodyGenerator(scene, physics, model, pos, Vector3(0, 0, 0), 1, 7);
+		rb->setVar(1); rb->setMedian(0);
+		rbGenerators.push_back(rb);
 		break;
 	}
 	case g_capsule: {
-		RigidBody* model = new RigidBody(scene, physics, Vector3(0, -500, 0), Vector3(-10, 0, 0), Vector3(0, 0, 0), 3, 20, s_capsule, Vector4(0, 1, 0, 1));
-		rbGenerators.push_back(new RigidBodyGenerator(scene, physics, model, pos, Vector3(0, 0, 0), 1, 0.7));
+		RigidBody* model = new RigidBody(scene, physics, Vector3(0, -500, 0), Vector3(-10, 0, 0), Vector3(0, 0, 0), 3, 20, s_capsule, Vector4(0.1, 0, 0.5, 1));
+		RigidBodyGenerator* rb = new RigidBodyGenerator(scene, physics, model, pos, Vector3(0, 0, 0), 1, 6);
+		rb->setVar(1); rb->setMedian(0);
+		rbGenerators.push_back(rb);
 		break;
 	}
 	}
@@ -79,10 +100,17 @@ void RBSystem::shootRB() {
 	Vector3 dir = sMngr->getCamera()->getDir() * 30;
 
 	RigidBody* model = new RigidBody(scene, physics, pos, dir, Vector3(0, 0, 0), 1, 20, s_sphere, Vector4(1, 0, 0, 1));
+	model->setName("bulletN");
 
 	for (auto fg : forceGenerators) // Añade las particulas al registro de fuerzas 
 		forceRegistry.addRegistry(fg, model);
 	rbs.push_back(model);
 
 	numRB++;
+}
+
+void RBSystem::activateWind() {
+	WindForceGenerator* wind = new WindForceGenerator(Vector3(0, 0, -10), 0.25, 0.1);
+	for (auto r : rbs)
+		forceRegistry.addRegistry(wind, r);
 }

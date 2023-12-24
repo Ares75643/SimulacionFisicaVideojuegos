@@ -5,6 +5,7 @@ Firework::Firework(Vector3 Pos, Vector3 Vel, Vector3 Acl,
 	float Size, float Mass, float LifeTime, float Damp, Vector4 Color, int Type, ParticleSystem* PSYS)
 	: Particle(Pos, Vel, Acl, Size, Mass, LifeTime, Damp, Color) {
 	type = Type;
+	if (type == -1) type = rand() % 4;
 	pSys = PSYS;
 }
 
@@ -23,26 +24,26 @@ list<Particle*> Firework::explode() {
 	list<Particle*> pList; 
 	switch (type){
 	case 0:
-		g->changeDistribution(10, 4);
+		g->changeDistribution(0, 3);
 		SummonParticles(&pList, g, 5, Vector4(1, 0, 0, 1), 0.5);
 		SummonParticles(&pList, g, 6, Vector4(1, 1, 0, 1), 1);
 		SummonParticles(&pList, g, 3, Vector4(1, 1, 1, 1), 0.7);
 		break;
 	case 1:
-		g->changeDistribution(15, 6);
+		g->changeDistribution(0, 5);
 		SummonParticles(&pList, g, 5, Vector4(0, 0, 1, 1), 0.3);
-		SummonParticles(&pList, g, 6, Vector4(0, 1, 0, 1), 0.2);
-		SummonParticles(&pList, g, 3, Vector4(1, 0, 1, 1), 0.6);
+		SummonParticles(&pList, g, 6, Vector4(0, 1, 1, 1), 0.2);
+		SummonParticles(&pList, g, 3, Vector4(0.5, 0, 0.5, 1), 0.6);
 		break;
 	case 2:
-		g->changeDistribution(8, 3);
-		SummonParticles(&pList, g, 5, Vector4(0.5, 0, 0.5, 1), 0.8);
-		SummonParticles(&pList, g, 6, Vector4(0, 0.6, 0, 1), 1);
+		g->changeDistribution(0, 2.5);
+		SummonParticles(&pList, g, 5, Vector4(0.4, 0, 0.4, 1), 0.8);
+		SummonParticles(&pList, g, 6, Vector4(0, 0.6, 1, 1), 1);
 		SummonParticles(&pList, g, 3, Vector4(0.3, 0.7, 0, 1), 1.2);
 		break;
 
 	case 3:
-		g->changeDistribution(5, 4);
+		g->changeDistribution(0, 4);
 		SummonFireworks(&pList, g, 7, Vector4(1, 1, 1, 1), 0.2, (rand()%3));
 		break;
 

@@ -33,12 +33,17 @@ protected:
 
 public:
 	RBSystem(SceneManager* SM);
+	~RBSystem();
+	void clear();
+	void clearRBS();
 	void update(double t);
 	void deleteUnusedRB();
 	void addRBS(list<RigidBody*> lrb);
 
 	void createGenerators(GeneratorType T);
 	void shootRB();
+
+	void activateWind();
 
 	void addGravity() {
 		GravityForceGenerator* g = new GravityForceGenerator(Vector3(0, 20, 0));
@@ -59,5 +64,23 @@ public:
 		ExplosionForceGenerator* megumin = new ExplosionForceGenerator(Vector3(0, 0, 0));
 		for (auto rb : rbs)
 			forceRegistry.addRegistry(megumin, rb);
+	}
+
+	void destroyRigidBody(PxActor* obj) {
+		PxActor* act;
+		RigidBody* p1 = nullptr;
+
+		auto i = rbs.begin();
+
+		while (p1 == nullptr && i != rbs.end()) {
+			act = (*i)->getRigidDynamic();
+
+			if (obj == act) {
+				p1 = (*i);
+				(*i)->setAlive(false);
+			}
+
+			else ++i;
+		}
 	}
 };

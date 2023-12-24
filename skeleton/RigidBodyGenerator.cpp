@@ -24,7 +24,7 @@ list<RigidBody*> RigidBodyGenerator::generateBodies(){
 				normal_distribution<float> d(median, var); // Se contruye aqui para poder cambiar los parametros
 
 				Vector3 posicion = pos + Vector3(d(generatorRB), d(generatorRB), d(generatorRB));
-				Vector3 velocidad = vel + Vector3(d(generatorRB), d(generatorRB), d(generatorRB));
+				Vector3 velocidad = vel + Vector3(d(generatorRB), 0, d(generatorRB));
 
 				RigidBody* rb = new RigidBody(scene, physics, posicion, velocidad, Vector3(0, 0, 0), model->getMass(), model->getLifeTime(), model->getShape(), model->getColor());
 

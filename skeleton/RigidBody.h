@@ -12,6 +12,8 @@ enum Shape{s_cube, s_sphere, s_rect, s_capsule};
 
 class RigidBody {
 protected:
+	PxScene* scene;
+
 	PxTransform transform;
 	PxRigidDynamic* solid;
 	PxShape* shape;
@@ -22,13 +24,15 @@ protected:
 	bool alive;
 
 public:
-	RigidBody(PxScene* scene, PxPhysics* physics,
+	RigidBody(PxScene* Scene, PxPhysics* Physics,
 		const Vector3& Position, const Vector3& Velocity = Vector3(0, 0, 0), const Vector3& Inertia = Vector3(1, 1, 1),
 		double Mass = 1, double LifeTime = 30,
 		Shape Shape = s_cube, Vector4 Color = Vector4(0, 0, 0, 1)) {
 
+		scene = Scene;
+
 		transform = physx::PxTransform(Position.x, Position.y, Position.z);
-		solid = physics->createRigidDynamic(transform);
+		solid = Physics->createRigidDynamic(transform);
 
 		solid->setLinearVelocity(Velocity);
 		solid->setAngularVelocity(Vector3(0,0,0));
@@ -41,19 +45,18 @@ public:
 		alive = true;
 		shapeType = Shape;
 		
-		switch (shapeType)
-		{
+		switch (shapeType){
 		case s_capsule:
-			shape = CreateShape(PxCapsuleGeometry(1, 1));
+			shape = CreateShape(PxCapsuleGeometry(0.5, 0.5));
 			break;
 		case s_sphere:
-			shape = CreateShape(PxSphereGeometry(1));
+			shape = CreateShape(PxSphereGeometry(0.5));
 			break;
 		case s_cube:
-			shape = CreateShape(PxBoxGeometry(1, 1, 1));
+			shape = CreateShape(PxBoxGeometry(0.5, 0.5, 0.5));
 			break;
 		case s_rect:
-			shape = CreateShape(PxBoxGeometry(1, 2, 1));
+			shape = CreateShape(PxBoxGeometry(0.5, 1, 0.5));
 			break;
 		}
 
@@ -90,4 +93,5 @@ public:
 	void setLinearVelocity(Vector3 Vel) { solid->setLinearVelocity(Vel); }
 	void addForce(Vector3 F) { solid->addForce(F); }
 	void setAlive(bool A = false) { alive = A; }
+	void setName(char* N) { solid->setName(N); }
 };

@@ -3,6 +3,7 @@
 #include "RenderUtils.hpp"
 #include "Particle.h"
 #include <list>
+class ParticleSystem;
 
 using namespace std;
 
@@ -22,15 +23,26 @@ protected:
 	float timeUntilNextGeneration;
 	double generationProbability;
 
+	double lifeTime = 60000;
+
 	Particle* model;
+	bool fireworks = false;
 
 public:
 	ParticleGenerator(){}
 	ParticleGenerator(string Name, Vector3 Position, Vector3 PVelocity, Particle* Model, int ParticlesGenerated, int MaxParticles, float GenerationProbability, float Frecuency, Vector3 Velocity = Vector3(0,0,0));
 	~ParticleGenerator();
 
+	virtual list<Particle*> generateParticles() = 0;
+	virtual list<Particle*> generateFireworks(ParticleSystem* PSYS) = 0;
+	void update(float t);
+
 	void setParticle(Particle* model);
 	void setNumParticles(int N) { particlesGenerated = N; }
-	virtual list<Particle*> generateParticles() = 0;
-	void update(float t);
+	void setLifeTime(double T) { lifeTime = T; }
+
+	Particle* getModel() { return model; }
+
+	bool isFireworkGenerator() { return fireworks; }
+	void setFirework(bool F) { fireworks = F; }
 };

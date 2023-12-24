@@ -14,7 +14,7 @@
 #include "Particle.h"
 #include "RigidBody.h"
 
-std::string display_text = "This is a test";
+std::string display_text = " ";
 
 using namespace physx;
 using namespace std;
@@ -52,7 +52,7 @@ void initPhysics(bool interactive) {
 
 	// For Solid Rigids +++++++++++++++++++++++++++++++++++++
 	PxSceneDesc sceneDesc(gPhysics->getTolerancesScale());
-	sceneDesc.gravity = PxVec3(0.0f, -9.8f, 0.0f);
+	sceneDesc.gravity = PxVec3(0.0f, 0.0f, 1.0f);
 	gDispatcher = PxDefaultCpuDispatcherCreate(2);
 	sceneDesc.cpuDispatcher = gDispatcher;
 	sceneDesc.filterShader = contactReportFilterShader;
@@ -60,16 +60,46 @@ void initPhysics(bool interactive) {
 	gScene = gPhysics->createScene(sceneDesc);
 
 	
-	//SUELO
-	PxRigidStatic* suelo = gPhysics->createRigidStatic(PxTransform{ 0,0,0 });
-	PxShape* shape = CreateShape(PxBoxGeometry(100, 0.1, 100));
-	suelo->attachShape(*shape);
-	gScene->addActor(*suelo);
-	RenderItem* item = new RenderItem(shape, suelo, { 0.8,0.8,0.8,1 });
+	////SUELO
+	PxRigidStatic* platform = gPhysics->createRigidStatic(PxTransform{ 0,0,-50 });
+	PxShape* shape = CreateShape(PxBoxGeometry(5, 0.2, 50));
+	platform->attachShape(*shape);
+	gScene->addActor(*platform);
+	RenderItem* item = new RenderItem(shape, platform, Vector4(0.5, 0.5, 1, 1));
+	//TECHO
+	/*platform = gPhysics->createRigidStatic(PxTransform{ 0,5,-50 });
+	shape = CreateShape(PxBoxGeometry(4, 0.2, 50));
+	platform->attachShape(*shape);
+	gScene->addActor(*platform);
+	item = new RenderItem(shape, platform, Vector4(0.5, 0.5, 1, 1));*/
+	//PARED1
+	platform = gPhysics->createRigidStatic(PxTransform{ -5, 2.5, -50 });
+	shape = CreateShape(PxBoxGeometry(0.2, 2.5, 50));
+	platform->attachShape(*shape);
+	gScene->addActor(*platform);
+	item = new RenderItem(shape, platform, Vector4(0.2, 0, 1, 0));
+	//PARED2
+	platform = gPhysics->createRigidStatic(PxTransform{ 5, 2.5, -50 });
+	shape = CreateShape(PxBoxGeometry(0.2, 2.5, 50));
+	platform->attachShape(*shape);
+	gScene->addActor(*platform);
+	item = new RenderItem(shape, platform, Vector4(0.2, 0, 1, 0));
+	//DEADLINE
+	platform = gPhysics->createRigidStatic(PxTransform{ 0, 2.5, 0 });
+	shape = CreateShape(PxBoxGeometry(4, 2.5, 0.2));
+	platform->attachShape(*shape);
+	platform->setName("deathLine");
+	gScene->addActor(*platform);
+	item = new RenderItem(shape, platform, Vector4(1, 0, 0, 1));
+	//SPAWNER
+	platform = gPhysics->createRigidStatic(PxTransform{ 0, 2.5, -100 });
+	shape = CreateShape(PxBoxGeometry(4, 2.5, 0.2));
+	platform->attachShape(*shape);
+	gScene->addActor(*platform);
+	item = new RenderItem(shape, platform, Vector4(0, 1, 0, 1));
 
-	//RigidBody* r = new RigidBody(gScene, gPhysics, Vector3(0, 10, 0), Vector3(-10, 0, 0), Vector3(0, 0, 2), 3, 30, & PxBoxGeometry(1, 2, 1), Vector4(1, 1, 0, 1));
-	
 	sceneManager = new SceneManager(gScene, gPhysics);
+	sceneManager->StartGame();
 }
 
 // Function to configure what happens in each step of physics
@@ -90,6 +120,8 @@ void stepPhysics(bool interactive, double t) {
 void cleanupPhysics(bool interactive) {
 	PX_UNUSED(interactive);
 
+	delete(sceneManager); // Elimina toda la escena
+
 	// Rigid Body ++++++++++++++++++++++++++++++++++++++++++
 	gScene->release();
 	gDispatcher->release();
@@ -107,33 +139,14 @@ void keyPress(unsigned char key, const PxTransform& camera) {
 	PX_UNUSED(camera);
 
 	switch(toupper(key)) {
-		case 'U':
-			sceneManager->getParticleSys()->addParticleGenerator(UNIFORM);
-			break;
-		case 'G':
-			sceneManager->getParticleSys()->addParticleGenerator(GAUSSIAN);
-			break;
-		case 'P':
-			sceneManager->getParticleSys()->createProyectile(bullet);
-			break;
-		case 'C':
-			sceneManager->getParticleSys()->createProyectile(canonBall);
-			break;
-		case 'L':
-			sceneManager->getParticleSys()->createProyectile(laser);
-			break;
+	
 		case ' ':
 			sceneManager->getParticleSys()->createProyectile(firework);
 			break;
-		case 'Q':
-			sceneManager->getParticleSys()->clear();
-			break;
-		case 'F':
-			sceneManager->getParticleSys()->addParticleGenerator(SNOW);
-			break;
-		case '1':
-			sceneManager->getParticleSys()->addGravity();
-			sceneManager->getRBSys()->addGravity();
+
+		// Habilities 
+		case '1': // H1 Viento que aleja todos los obstaculos (no elimina ninguno pero sirve para recolocar o ganar tiempo)
+			sceneManager->getRBSys()->activateWind();
 			break;
 		case '2':
 			sceneManager->getParticleSys()->addWind();
@@ -147,55 +160,40 @@ void keyPress(unsigned char key, const PxTransform& camera) {
 			sceneManager->getParticleSys()->addExplosion();
 			sceneManager->getRBSys()->addExplosion();
 			break;
-		case '5':
-			sceneManager->getParticleSys()->addSpring(S_DEFAULT);
-			break;
-		case '6':
-			sceneManager->getParticleSys()->addSpring(S_STATIC);
-			break;
-		case '7':
-			sceneManager->getParticleSys()->addSpring(S_SLINKY);
-			break;
-		case '8':
-			sceneManager->getParticleSys()->activateBuoyancy();
-			break;
-		case 'E':
-			sceneManager->getParticleSys()->explosionParticles();
-			break;
-		case 'K':
-			sceneManager->getParticleSys()->addKToAllSprings();
-			break;
-		case 'J':
-			sceneManager->getParticleSys()->subKToAllSprings();
-			break;
-		case '+':
-			sceneManager->getParticleSys()->addTestMass(5);
-			break;
-		case '-':
-			sceneManager->getParticleSys()->addTestMass(-5);
-			break;
-		case 'M':
-			sceneManager->getRBSys()->createGenerators(g_cube);
-			break;
-		case 'N':
-			sceneManager->getRBSys()->createGenerators(g_sphere);
-			break;
-		case 'B':
-			sceneManager->getRBSys()->createGenerators(g_capsule);
-			break;
+
+
 		case 'V':
 			sceneManager->getRBSys()->shootRB();
 			break;
 		
+		case 'E':
+			sceneManager->Damage();
+			break;
+		
 
-		default:
+		default: // Si se ha muerto pulsar cualquier tecla (que no tenga otro uso) reinicia el juego
+			if (!sceneManager->isAlive()) sceneManager->StartGame();
 			break;
 	}
 }
 
 void onCollision(physx::PxActor* actor1, physx::PxActor* actor2) {
+	if (!sceneManager->isAlive()) return;
+
 	PX_UNUSED(actor1);
 	PX_UNUSED(actor2);
+
+
+
+	if (actor1->getName() == "bulletN") {
+		sceneManager->getRBSys()->destroyRigidBody(actor1);
+		actor1->release();
+	}
+
+	if (actor2->getName() == "deathLine") {
+		sceneManager->getRBSys()->destroyRigidBody(actor1);
+		sceneManager->Damage();
+	}
 }
 
 int main(int, const char*const*) {

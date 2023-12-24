@@ -139,16 +139,21 @@ public:
 	}
 
 	private:
-		Particle* buoyancyTest = nullptr;
+	Particle* buoyancyTest = nullptr;
 
-		public:
-		void addTestMass(int M) { 
-			if (buoyancyTest != nullptr) {
-				if (buoyancyTest->getMass() + M > 0) {
-					buoyancyTest->setMass(buoyancyTest->getMass() + M);
-					cout << buoyancyTest->getMass() << endl;
-				}
+	public:
+	void addTestMass(int M) { 
+		if (buoyancyTest != nullptr) {
+			if (buoyancyTest->getMass() + M > 0) {
+				buoyancyTest->setMass(buoyancyTest->getMass() + M);
+				cout << buoyancyTest->getMass() << endl;
 			}
 		}
+	}
 
+
+
+
+	void celebrationFireworks();
+	void hurtParticles();
 };

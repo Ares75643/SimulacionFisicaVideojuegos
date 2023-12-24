@@ -17,6 +17,14 @@ private:
 	ParticleSystem* particleSys;
 	RBSystem* rbSys;
 
+	int lifes;
+
+	bool alive;
+	double timeAlive;
+
+	const double TIMEBETWEENPHASES = 5; // Segundos entre fases (TREINTA ESTÁ BIEN)
+	int phase;
+
 public:
 	SceneManager(PxScene* Scene, PxPhysics* Physics);
 	~SceneManager();
@@ -29,5 +37,9 @@ public:
 	ParticleSystem* getParticleSys() { return particleSys; }
 	RBSystem* getRBSys() { return rbSys; }
 
+	bool isAlive() { return alive; }
+
 	void StartGame();
+	void Damage();
+	void EndGame();
 };

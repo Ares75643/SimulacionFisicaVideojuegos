@@ -1,4 +1,5 @@
 #include "ParticleGenerator.h"
+#include "ParticleSystem.h"
 
 ParticleGenerator::ParticleGenerator(string Name, Vector3 Position, Vector3 PVelocity, Particle* Model, int ParticlesGenerated, int MaxParticles, float GenerationProbability, float Frecuency, Vector3 Velocity) {
 	name = Name;
@@ -28,4 +29,7 @@ void ParticleGenerator::update(float t) {
 	position += velocity * t; // Movimiento
 
 	timeUntilNextGeneration -= t;
+	lifeTime -= t;
+
+	if (lifeTime <= 0) active = false;
 }
