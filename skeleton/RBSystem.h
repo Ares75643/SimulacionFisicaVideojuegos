@@ -15,6 +15,7 @@ using namespace std;
 
 const int MAXRBS = 1000;
 
+enum BulletType { b_normal, b_sgravity, b_ugravity};
 enum GeneratorType {g_sphere, g_capsule, g_cube};
 
 class RBSystem {
@@ -41,9 +42,12 @@ public:
 	void addRBS(list<RigidBody*> lrb);
 
 	void createGenerators(GeneratorType T);
-	void shootRB();
+	void shootRB(BulletType T);
 
 	void activateWind();
+
+	void superGravity(PxActor* obj);
+	void inverseGravity(PxActor* obj);
 
 	void addGravity() {
 		GravityForceGenerator* g = new GravityForceGenerator(Vector3(0, 20, 0));
@@ -60,27 +64,44 @@ public:
 		for (auto rb : rbs)
 			forceRegistry.addRegistry(t, rb);
 	}
-	void addExplosion() {
-		ExplosionForceGenerator* megumin = new ExplosionForceGenerator(Vector3(0, 0, 0));
+	void addExplosion(Vector3 Pos = Vector3(0, 0, 0)) {
+		ExplosionForceGenerator* megumin = new ExplosionForceGenerator(Pos, 50, 10, 0.005);
 		for (auto rb : rbs)
 			forceRegistry.addRegistry(megumin, rb);
 	}
 
 	void destroyRigidBody(PxActor* obj) {
 		PxActor* act;
-		RigidBody* p1 = nullptr;
+		RigidBody* p = nullptr;
 
 		auto i = rbs.begin();
 
-		while (p1 == nullptr && i != rbs.end()) {
+		while (p == nullptr && i != rbs.end()) {
 			act = (*i)->getRigidDynamic();
 
 			if (obj == act) {
-				p1 = (*i);
+				p = (*i);
 				(*i)->setAlive(false);
 			}
 
 			else ++i;
 		}
+	}
+
+	RigidBody* getRigidBody(PxActor* obj) {
+		PxActor* act;
+		RigidBody* p = nullptr;
+
+		auto i = rbs.begin();
+
+		while (i != rbs.end()) {
+			act = (*i)->getRigidDynamic();
+
+			if (obj == act) {
+				return (*i);
+			}
+			else ++i;
+		}
+		return nullptr;
 	}
 };

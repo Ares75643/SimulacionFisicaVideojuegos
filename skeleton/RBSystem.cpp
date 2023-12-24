@@ -24,8 +24,7 @@ void RBSystem::clear() {
 
 void RBSystem::clearRBS() {
 	for (RigidBody* r : rbs)
-		rbsToDelete.push_back(r);
-	deleteUnusedRB();
+		r->setAlive(false);
 }
 
 void RBSystem::update(double t) {
@@ -48,8 +47,10 @@ void RBSystem::deleteUnusedRB() {
 	for (auto it = rbsToDelete.begin(); it != rbsToDelete.end();) {
 		forceRegistry.deleteRigidBodyRegistry(*it);
 		rbs.remove(*it);
+		scene->removeActor((*(*it)->getRigidDynamic()));
 		delete(*it);
 		it = rbsToDelete.erase(it);
+		
 		numRB--;
 	}
 }
@@ -95,12 +96,24 @@ void RBSystem::createGenerators(GeneratorType T) {
 	}
 }
 
-void RBSystem::shootRB() {
+void RBSystem::shootRB(BulletType T) {
 	Vector3 pos = sMngr->getCamera()->getEye() + sMngr->getCamera()->getDir();
 	Vector3 dir = sMngr->getCamera()->getDir() * 30;
 
-	RigidBody* model = new RigidBody(scene, physics, pos, dir, Vector3(0, 0, 0), 1, 20, s_sphere, Vector4(1, 0, 0, 1));
-	model->setName("bulletN");
+	RigidBody* model = new RigidBody(scene, physics, pos, dir, Vector3(0, 0, 0), 1, 20, s_sphere);
+	
+	if (T == b_normal) {
+		model->setName("bulletN");
+		model->setColor(Vector4(1, 1, 0, 0));
+	}
+	else if (T == b_sgravity) {
+		model->setName("bulletSG");
+		model->setColor(Vector4(0, 0, 0.5, 0));
+	}
+	else if (T == b_ugravity) {
+		model->setName("bulletUG");
+		model->setColor(Vector4(0.4, 0, 0.4, 0));
+	}
 
 	for (auto fg : forceGenerators) // Añade las particulas al registro de fuerzas 
 		forceRegistry.addRegistry(fg, model);
@@ -113,4 +126,16 @@ void RBSystem::activateWind() {
 	WindForceGenerator* wind = new WindForceGenerator(Vector3(0, 0, -10), 0.25, 0.1);
 	for (auto r : rbs)
 		forceRegistry.addRegistry(wind, r);
+}
+
+void RBSystem::superGravity(PxActor* obj) {
+	GravityForceGenerator* g = new GravityForceGenerator(Vector3(0, -30, 0));
+	RigidBody* r = getRigidBody(obj);
+	if (r != nullptr) forceRegistry.addRegistry(g, r);
+}
+
+void RBSystem::inverseGravity(PxActor* obj) {
+	GravityForceGenerator* g = new GravityForceGenerator(Vector3(0, 30, 0));
+	RigidBody* r = getRigidBody(obj);
+	if(r != nullptr) forceRegistry.addRegistry(g, r);
 }

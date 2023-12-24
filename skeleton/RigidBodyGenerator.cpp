@@ -27,7 +27,7 @@ list<RigidBody*> RigidBodyGenerator::generateBodies(){
 				Vector3 velocidad = vel + Vector3(d(generatorRB), 0, d(generatorRB));
 
 				RigidBody* rb = new RigidBody(scene, physics, posicion, velocidad, Vector3(0, 0, 0), model->getMass(), model->getLifeTime(), model->getShape(), model->getColor());
-
+				rb->getRigidDynamic()->setName("obstacle");
 				listRB.push_back(rb);
 			}
 			timeUntilNextGeneration = frecuency; // Actualiza el tiempo hasta la generación

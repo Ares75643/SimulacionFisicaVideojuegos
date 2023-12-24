@@ -161,15 +161,15 @@ void keyPress(unsigned char key, const PxTransform& camera) {
 			sceneManager->getRBSys()->addExplosion();
 			break;
 
-
-		case 'V':
-			sceneManager->getRBSys()->shootRB();
+		case 'Z':
+			sceneManager->getRBSys()->shootRB(b_normal);
 			break;
-		
-		case 'E':
-			sceneManager->Damage();
+		case 'X':
+			sceneManager->getRBSys()->shootRB(b_sgravity);
 			break;
-		
+		case 'C':
+			sceneManager->getRBSys()->shootRB(b_ugravity);
+			break;
 
 		default: // Si se ha muerto pulsar cualquier tecla (que no tenga otro uso) reinicia el juego
 			if (!sceneManager->isAlive()) sceneManager->StartGame();
@@ -178,19 +178,26 @@ void keyPress(unsigned char key, const PxTransform& camera) {
 }
 
 void onCollision(physx::PxActor* actor1, physx::PxActor* actor2) {
-	if (!sceneManager->isAlive()) return;
+	if (!sceneManager->isAlive() || actor1 == nullptr || actor2 == nullptr) return;
 
 	PX_UNUSED(actor1);
 	PX_UNUSED(actor2);
 
-
-
-	if (actor1->getName() == "bulletN") {
+	// Gestion de colision con balas
+	if (actor1->getName() == "bulletN" && actor2->getName() == "obstacle") {
 		sceneManager->getRBSys()->destroyRigidBody(actor1);
-		actor1->release();
+	}
+	else if (actor1->getName() == "bulletUG" && actor2->getName() == "obstacle") {
+		sceneManager->getRBSys()->inverseGravity(actor2);
+		sceneManager->getRBSys()->destroyRigidBody(actor1);
+	}
+	else if (actor1->getName() == "bulletSG" && actor2->getName() == "obstacle") {
+		sceneManager->getRBSys()->superGravity(actor2);
+		sceneManager->getRBSys()->destroyRigidBody(actor1);
 	}
 
-	if (actor2->getName() == "deathLine") {
+	// Daño
+	if (actor2->getName() == "deathLine" && actor1->getName() == "obstacle") {
 		sceneManager->getRBSys()->destroyRigidBody(actor1);
 		sceneManager->Damage();
 	}

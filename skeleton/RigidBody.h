@@ -94,4 +94,5 @@ public:
 	void addForce(Vector3 F) { solid->addForce(F); }
 	void setAlive(bool A = false) { alive = A; }
 	void setName(char* N) { solid->setName(N); }
+	void setColor(Vector4 C) { render->color = C; }
 };

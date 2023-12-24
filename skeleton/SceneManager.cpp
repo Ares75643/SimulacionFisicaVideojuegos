@@ -15,10 +15,10 @@ SceneManager::~SceneManager() {
 }
 
 void SceneManager::update(double t) {
-	if (alive) {
-		particleSys->update(t);
-		rbSys->update(t);
+	particleSys->update(t);
+	rbSys->update(t);
 
+	if (alive) {
 		timeAlive += t;
 		if (timeAlive >= phase * TIMEBETWEENPHASES) {
 			phase++;
@@ -52,7 +52,6 @@ void SceneManager::Damage() {
 		EndGame();
 	}
 	else {
-		rbSys->clearRBS();
 		particleSys->hurtParticles();
 	}
 }
