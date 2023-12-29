@@ -62,21 +62,21 @@ bool Camera::handleKey(unsigned char key, int x, int y, float speed)
 	PxVec3 viewY = mDir.cross(PxVec3(0,1,0)).getNormalized();
 	switch(toupper(key))
 	{
-	//CAMARA LIBRE
-	case 'W':	mEye += mDir * 2.0f * speed;		break;
-	case 'S':	mEye -= mDir * 2.0f * speed;		break;
-	case 'A':	mEye -= viewY * 2.0f * speed;		break;
-	case 'D':	mEye += viewY * 2.0f * speed;		break;
+	////CAMARA LIBRE
+	//case 'W':	mEye += mDir * 2.0f * speed;		break;
+	//case 'S':	mEye -= mDir * 2.0f * speed;		break;
+	//case 'A':	mEye -= viewY * 2.0f * speed;		break;
+	//case 'D':	mEye += viewY * 2.0f * speed;		break;
 
-	// MOVIMIENTO DEL JUGADOR (Limitado para no salirse de los muros y solo en el eje x)
-	//case 'A':	
-	//	if((mEye - PxVec3(1, 0, 0) * speed).x > -4)
-	//		mEye -= PxVec3(1, 0, 0) * speed;		
-	//	break;
-	//case 'D':	
-	//	if ((mEye + PxVec3(1, 0, 0) * speed).x < 4)
-	//		mEye += PxVec3(1, 0, 0) * speed;		
-	//	break;
+	//MOVIMIENTO DEL JUGADOR (Limitado para no salirse de los muros y solo en el eje x)
+	case 'A':	
+		if((mEye - PxVec3(1, 0, 0) * speed).x > -4)
+			mEye -= PxVec3(1, 0, 0) * speed;		
+		break;
+	case 'D':	
+		if ((mEye + PxVec3(1, 0, 0) * speed).x < 4)
+			mEye += PxVec3(1, 0, 0) * speed;		
+		break;
 	default:							return false;
 	}
 	return true;

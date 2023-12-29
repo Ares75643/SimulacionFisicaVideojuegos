@@ -9,7 +9,6 @@ class Firework : public Particle {
 protected:
 	ParticleSystem* pSys;
 	int type;
-	list<shared_ptr<Particle>> particles;
 
 	void SummonParticles(list<Particle*>* l, GaussianParticleGenerator* g, int N, Vector4 Color, float Size);
 

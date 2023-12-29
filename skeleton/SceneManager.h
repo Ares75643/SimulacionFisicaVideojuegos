@@ -26,11 +26,12 @@ private:
 	RBSystem* rbSys;
 
 	int lifes;
+	Particle* extraLifesIndicator[2];
 
 	bool alive;
 	double timeAlive;
 
-	const double TIMEBETWEENPHASES = 5; // Segundos entre fases (TREINTA ESTÁ BIEN)
+	const double TIMEBETWEENPHASES = 30; // Segundos entre fases (TREINTA ESTÁ BIEN)
 	int phase;
 
 	Event events[NEVENTS] = {
@@ -38,7 +39,7 @@ private:
 		{0, 2},
 		{0, 2},
 		{5, 8},
-		{5, 10}
+		{10, 30}
 	};
 
 public:
@@ -61,4 +62,21 @@ public:
 
 	bool isEventAvaliable(EventType e) { return events[e].timeUntilActivation <= 0; }
 	void activateEvent(EventType e);
+
+	void assignExtraLifes(Particle* l1, Particle* l2) { 
+		extraLifesIndicator[0] = l1; 
+		extraLifesIndicator[1] = l2;
+	}
+
+	void updateDificulty() {
+		if (phase == 2) {
+			rbSys->createGenerators(g_cube);
+		}
+		else if (phase == 5) {
+			rbSys->createGenerators(g_sphere);
+		}
+		else if (phase % 5 == 0) {
+			events[_wind].delayTime *= 1.1;
+		}
+	}
 };

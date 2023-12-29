@@ -156,4 +156,5 @@ public:
 
 	void celebrationFireworks();
 	void hurtParticles();
+	void gIndicators();
 };

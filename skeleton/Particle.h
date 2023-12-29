@@ -48,6 +48,7 @@ public:
 	inline void setSize(float S) { size = S; }
 	inline void setColor(Vector4 C) { color = C; }
 	inline void setShape(P_SHAPE S) { shape = S; }
+	inline void setAlive(bool A) { alive = A; }
 
 	//Getters
 	inline Vector3 getPos() { return Vector3(pose.p.x, pose.p.y, pose.p.z); }

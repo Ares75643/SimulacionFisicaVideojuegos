@@ -70,24 +70,24 @@ void RBSystem::addRBS(list<RigidBody*> lrb) {
 }
 
 void RBSystem::createGenerators(GeneratorType T) {
-	Vector3 pos = Vector3(0, 2, -98);
+	Vector3 pos = Vector3(0, 2, -96);
 	switch (T) {
 	case g_sphere: {
-		RigidBody* model = new RigidBody(scene, physics, Vector3(0, -500, 0), Vector3(-10, 0, 0), Vector3(0, 0, 0), 1, 20, s_sphere, Vector4(0.5, 0, 0.5, 1));
+		RigidBody* model = new RigidBody(scene, physics, Vector3(0, -500, 0), Vector3(-10, 0, 0), Vector3(0, 0, 0), 1, 40, s_sphere, Vector4(0.5, 0, 0.5, 1));
 		RigidBodyGenerator* rb = new RigidBodyGenerator(scene, physics, model, pos, Vector3(0, 0, 0), 1, 3);
 		rb->setVar(1); rb->setMedian(0);
 		rbGenerators.push_back(rb);
 		break;
 	}
 	case g_cube: {
-		RigidBody* model = new RigidBody(scene, physics, Vector3(0, -500, 0), Vector3(-10, 0, 0), Vector3(0, 0, 0), 10, 20, s_cube, Vector4(0, 0.5, 0, 1));
+		RigidBody* model = new RigidBody(scene, physics, Vector3(0, -500, 0), Vector3(-10, 0, 0), Vector3(0, 0, 0), 10, 40, s_cube, Vector4(0, 1, 1, 1));
 		RigidBodyGenerator* rb = new RigidBodyGenerator(scene, physics, model, pos, Vector3(0, 0, 0), 1, 7);
 		rb->setVar(1); rb->setMedian(0);
 		rbGenerators.push_back(rb);
 		break;
 	}
 	case g_capsule: {
-		RigidBody* model = new RigidBody(scene, physics, Vector3(0, -500, 0), Vector3(-10, 0, 0), Vector3(0, 0, 0), 3, 20, s_capsule, Vector4(0.1, 0, 0.5, 1));
+		RigidBody* model = new RigidBody(scene, physics, Vector3(0, -500, 0), Vector3(-10, 0, 0), Vector3(0, 0, 0), 3, 40, s_capsule, Vector4(1, 1, 0, 1));
 		RigidBodyGenerator* rb = new RigidBodyGenerator(scene, physics, model, pos, Vector3(0, 0, 0), 1, 6);
 		rb->setVar(1); rb->setMedian(0);
 		rbGenerators.push_back(rb);

@@ -23,6 +23,7 @@ void SceneManager::update(double t) {
 		if (timeAlive >= phase * TIMEBETWEENPHASES) {
 			phase++;
 			particleSys->celebrationFireworks();
+			updateDificulty();
 		}
 	}
 
@@ -45,9 +46,10 @@ void SceneManager::StartGame() {
 	lifes = 3;
 
 	// First Obstacles
-	rbSys->createGenerators(g_sphere);
 	rbSys->createGenerators(g_capsule);
-	rbSys->createGenerators(g_cube);
+
+	// Wind indicators
+	particleSys->gIndicators();
 }
 
 void SceneManager::Damage() {
@@ -55,6 +57,7 @@ void SceneManager::Damage() {
 		EndGame();
 	}
 	else {
+		extraLifesIndicator[lifes - 1]->setAlive(false);
 		particleSys->hurtParticles();
 	}
 }

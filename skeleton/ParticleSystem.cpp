@@ -284,7 +284,9 @@ void ParticleSystem::hurtParticles() {
 	p->setSize(0.05);
 	p->setColor(Vector4(1, 0, 0, 2));
 
-	particleGenerators.push_back(new GaussianParticleGenerator("G", Vector3(0, 1, -5), Vector3(0, 0, 0), p, 5, 1000, 0.99, 0.2));
+	GaussianParticleGenerator* g = new GaussianParticleGenerator("G", Vector3(0, 1, -5), Vector3(0, 0, 0), p, 5, 1000, 0.99, 0.2);
+	g->setLifeTime(3);
+	particleGenerators.push_back(g);
 
 	p = new Particle(Vector3(0, 1, -100), Vector3(0, 10, 0), GRAVITY);
 
@@ -293,5 +295,41 @@ void ParticleSystem::hurtParticles() {
 	p->setSize(0.1);
 	p->setColor(Vector4(0.5, 0, 0, 1));
 
-	particleGenerators.push_back(new GaussianParticleGenerator("G", Vector3(0, 1, -5), Vector3(0, 0, 0), p, 5, 1000, 0.99, 0.2));
+	g = new GaussianParticleGenerator("G", Vector3(0, 1, -5), Vector3(0, 0, 0), p, 5, 1000, 0.99, 0.2);
+	g->setLifeTime(3);
+	particleGenerators.push_back(g);
+}
+
+void ParticleSystem::gIndicators() {
+	Vector3 Position = Vector3(5, 6, -20);
+	Particle* p1 = new Particle(Position, Vector3(0, 0, 0), Vector3(0, 0, 0));
+	p1->setColor(Vector4(0.7, 0.2, 0.2, 1));
+	p1->init();
+	p1->setLifeTime(FLT_MAX);
+	nParticles += 2;
+
+	StaticSpringForceGenerator* f = new StaticSpringForceGenerator(4, 4.5,  Position + Vector3(0, -5, 0));
+	forceRegistry.addRegistry(new GravityForceGenerator(Vector3(0, 8, 10)), p1);
+
+	forceRegistry.addRegistry(f, p1);
+	particles.push_back(p1);
+	particles.push_back(f->getOther());
+
+
+
+	Position = Vector3(-5, 6, -20);
+	Particle* p2 = new Particle(Position, Vector3(0, 0, 0), Vector3(0, 0, 0));
+	p2->setColor(Vector4(0.7, 0.2, 0.2, 1));
+	p2->init();
+	p2->setLifeTime(FLT_MAX);
+	nParticles += 2;
+	StaticSpringForceGenerator* f1 = new StaticSpringForceGenerator(4, 4.5, Position + Vector3(0, -5, 0));
+
+	forceRegistry.addRegistry(new GravityForceGenerator(Vector3(0, 8, 10)), p2);
+
+	forceRegistry.addRegistry(f1, p2);
+	particles.push_back(p2);
+	particles.push_back(f1->getOther());
+
+	sMngr->assignExtraLifes(p1, p2);
 }

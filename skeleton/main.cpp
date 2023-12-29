@@ -52,7 +52,7 @@ void initPhysics(bool interactive) {
 
 	// For Solid Rigids +++++++++++++++++++++++++++++++++++++
 	PxSceneDesc sceneDesc(gPhysics->getTolerancesScale());
-	sceneDesc.gravity = PxVec3(0.0f, 0.0f, 1.0f);
+	sceneDesc.gravity = PxVec3(0.0f, 0.0f, 0.5f);
 	gDispatcher = PxDefaultCpuDispatcherCreate(2);
 	sceneDesc.cpuDispatcher = gDispatcher;
 	sceneDesc.filterShader = contactReportFilterShader;
@@ -65,7 +65,7 @@ void initPhysics(bool interactive) {
 	PxShape* shape = CreateShape(PxBoxGeometry(5, 0.2, 50));
 	platform->attachShape(*shape);
 	gScene->addActor(*platform);
-	RenderItem* item = new RenderItem(shape, platform, Vector4(0.5, 0.5, 1, 1));
+	RenderItem* item = new RenderItem(shape, platform, Vector4(1, 1, 1, 1));
 	//TECHO
 	/*platform = gPhysics->createRigidStatic(PxTransform{ 0,5,-50 });
 	shape = CreateShape(PxBoxGeometry(4, 0.2, 50));
@@ -77,23 +77,23 @@ void initPhysics(bool interactive) {
 	shape = CreateShape(PxBoxGeometry(0.2, 2.5, 50));
 	platform->attachShape(*shape);
 	gScene->addActor(*platform);
-	item = new RenderItem(shape, platform, Vector4(0.2, 0, 1, 0));
+	item = new RenderItem(shape, platform, Vector4(0, 0, 0.5, 1));
 	//PARED2
 	platform = gPhysics->createRigidStatic(PxTransform{ 5, 2.5, -50 });
 	shape = CreateShape(PxBoxGeometry(0.2, 2.5, 50));
 	platform->attachShape(*shape);
 	gScene->addActor(*platform);
-	item = new RenderItem(shape, platform, Vector4(0.2, 0, 1, 0));
+	item = new RenderItem(shape, platform, Vector4(0, 0, 0.5, 1));
 	//DEADLINE
 	platform = gPhysics->createRigidStatic(PxTransform{ 0, 2.5, 0 });
-	shape = CreateShape(PxBoxGeometry(4, 2.5, 0.2));
+	shape = CreateShape(PxBoxGeometry(5, 2.5, 0.2));
 	platform->attachShape(*shape);
 	platform->setName("deathLine");
 	gScene->addActor(*platform);
 	item = new RenderItem(shape, platform, Vector4(1, 0, 0, 1));
 	//SPAWNER
 	platform = gPhysics->createRigidStatic(PxTransform{ 0, 2.5, -100 });
-	shape = CreateShape(PxBoxGeometry(4, 2.5, 0.2));
+	shape = CreateShape(PxBoxGeometry(5, 2.5, 0.2));
 	platform->attachShape(*shape);
 	gScene->addActor(*platform);
 	item = new RenderItem(shape, platform, Vector4(0, 1, 0, 1));
@@ -192,6 +192,25 @@ void onCollision(physx::PxActor* actor1, physx::PxActor* actor2) {
 			sceneManager->getRBSys()->freeze(actor2);
 
 		sceneManager->getRBSys()->destroyRigidBody(actor1);
+	}
+
+	// Mismas colisiones pero en el otro sentido
+	else if (actor2->getName() == "bulletN") {
+		sceneManager->getRBSys()->destroyRigidBody(actor2);
+	}
+	else if (actor2->getName() == "bulletUG" && actor1->getName() == "obstacle") {
+		sceneManager->getRBSys()->inverseGravity(actor1);
+		sceneManager->getRBSys()->destroyRigidBody(actor2);
+	}
+	else if (actor2->getName() == "bulletSG" && actor1->getName() == "obstacle") {
+		sceneManager->getRBSys()->superGravity(actor1);
+		sceneManager->getRBSys()->destroyRigidBody(actor2);
+	}
+	else if (actor2->getName() == "bulletF") {
+		if (actor1->getName() == "obstacle")
+			sceneManager->getRBSys()->freeze(actor1);
+
+		sceneManager->getRBSys()->destroyRigidBody(actor2);
 	}
 
 	// Daño
